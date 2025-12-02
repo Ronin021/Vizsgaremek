@@ -425,8 +425,6 @@ Ha 401-et kapsz:
 12. MEGJEGYZÉSEK
 ========================================
 
-- Ez a backend vizsgaremek szintű
-- A kód egyszerű és érthető
 - Produkciós verzióban:
   * Bcrypt-et kell használni jelszóhoz
   * jsonwebtoken csomagot JWT-hez
