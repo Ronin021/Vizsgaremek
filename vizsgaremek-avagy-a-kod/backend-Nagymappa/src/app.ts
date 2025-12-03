@@ -1,4 +1,4 @@
-import express, { Express } from 'express';
+import express from 'express';
 import cors from 'cors';
 
 // Routes importálása
@@ -8,7 +8,7 @@ import userRoutes from './routes/users';
 import orderRoutes from './routes/orders';
 import orderItemRoutes from './routes/orderItems';
 
-const app: Express = express();
+const app = express();
 
 // Middleware-ek
 app.use(cors());
