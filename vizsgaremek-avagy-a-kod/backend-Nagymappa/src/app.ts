@@ -18,7 +18,7 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/orderItems', orderItemRoutes);
 
 // Alap route
-app.get('/', (_req, res) => {
+app.get('/api', (_req, res) => {
   res.json({ message: 'Üdvözöllek az API-n!' });
 });
 
