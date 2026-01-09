@@ -1,0 +1,349 @@
+{
+  "backend_info": {
+    "name": "Interior Shop Backend",
+    "version": "1.0.0",
+    "status": "production-ready",
+    "base_url": "http://localhost:3000",
+    "api_prefix": "/api"
+  },
+  "authentication": {
+    "type": "JWT",
+    "expiration": "7d",
+    "token_location": "Authorization header",
+    "token_format": "Bearer {token}",
+    "endpoints": {
+      "register": {
+        "method": "POST",
+        "path": "/auth/register",
+        "protected": false,
+        "body": {
+          "first_name": "string",
+          "last_name": "string",
+          "email": "string",
+          "password": "string"
+        },
+        "response": {
+          "token": "string",
+          "userId": "number",
+          "user": {
+            "id": "number",
+            "first_name": "string",
+            "last_name": "string",
+            "email": "string"
+          }
+        }
+      },
+      "login": {
+        "method": "POST",
+        "path": "/auth/login",
+        "protected": false,
+        "body": {
+          "email": "string",
+          "password": "string"
+        },
+        "response": {
+          "token": "string",
+          "user": {
+            "id": "number",
+            "first_name": "string",
+            "last_name": "string",
+            "email": "string"
+          }
+        }
+      },
+      "getCurrentUser": {
+        "method": "GET",
+        "path": "/auth/me",
+        "protected": true,
+        "response": {
+          "id": "number",
+          "first_name": "string",
+          "last_name": "string",
+          "email": "string"
+        }
+      }
+    }
+  },
+  "endpoints": {
+    "products": {
+      "getAll": {
+        "method": "GET",
+        "path": "/products",
+        "protected": false,
+        "response": [
+          {
+            "id": "number",
+            "name": "string",
+            "category_id": "number",
+            "price": "number",
+            "description": "string",
+            "stock": "number"
+          }
+        ]
+      },
+      "getById": {
+        "method": "GET",
+        "path": "/products/:id",
+        "protected": false,
+        "params": ["id"],
+        "response": {
+          "id": "number",
+          "name": "string",
+          "category_id": "number",
+          "price": "number",
+          "description": "string",
+          "stock": "number"
+        }
+      },
+      "create": {
+        "method": "POST",
+        "path": "/products",
+        "protected": false,
+        "body": {
+          "name": "string",
+          "category_id": "number",
+          "price": "number",
+          "description": "string",
+          "stock": "number"
+        },
+        "response": {
+          "id": "number",
+          "message": "string"
+        }
+      }
+    },
+    "categories": {
+      "getAll": {
+        "method": "GET",
+        "path": "/categories",
+        "protected": false,
+        "response": [
+          {
+            "id": "number",
+            "name": "string"
+          }
+        ]
+      },
+      "getById": {
+        "method": "GET",
+        "path": "/categories/:id",
+        "protected": false,
+        "params": ["id"],
+        "response": {
+          "id": "number",
+          "name": "string"
+        }
+      }
+    },
+    "orders": {
+      "getAll": {
+        "method": "GET",
+        "path": "/orders",
+        "protected": true,
+        "response": [
+          {
+            "id": "number",
+            "user_id": "number",
+            "total_price": "number",
+            "date": "string",
+            "status": "string"
+          }
+        ]
+      },
+      "getByUserId": {
+        "method": "GET",
+        "path": "/orders/user/:userId",
+        "protected": true,
+        "params": ["userId"],
+        "response": [
+          {
+            "id": "number",
+            "user_id": "number",
+            "total_price": "number",
+            "date": "string",
+            "status": "string"
+          }
+        ]
+      },
+      "create": {
+        "method": "POST",
+        "path": "/orders",
+        "protected": true,
+        "body": {
+          "user_id": "number",
+          "total_price": "number",
+          "date": "string",
+          "status": "string"
+        },
+        "response": {
+          "id": "number",
+          "message": "string"
+        }
+      }
+    },
+    "orderItems": {
+      "create": {
+        "method": "POST",
+        "path": "/order-items",
+        "protected": true,
+        "body": {
+          "order_id": "number",
+          "product_id": "number",
+          "quantity": "number"
+        },
+        "response": {
+          "id": "number",
+          "message": "string"
+        }
+      },
+      "getByOrderId": {
+        "method": "GET",
+        "path": "/order-items/order/:orderId",
+        "protected": true,
+        "params": ["orderId"],
+        "response": [
+          {
+            "id": "number",
+            "order_id": "number",
+            "product_id": "number",
+            "quantity": "number"
+          }
+        ]
+      }
+    }
+  },
+  "frontend_integration": {
+    "cors": {
+      "origin": "http://localhost:5173",
+      "credentials": true
+    },
+    "token_storage": "localStorage",
+    "token_key": "token",
+    "request_headers": {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer {token}"
+    },
+    "error_codes": {
+      "200": "OK",
+      "201": "Created",
+      "400": "Bad Request",
+      "401": "Unauthorized",
+      "404": "Not Found",
+      "409": "Conflict",
+      "500": "Server Error"
+    }
+  },
+  "example_requests": {
+    "register": {
+      "url": "POST http://localhost:3000/api/auth/register",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "first_name": "János",
+        "last_name": "Kiss",
+        "email": "janos@example.com",
+        "password": "jelszó123"
+      },
+      "response": {
+        "message": "Sikeres regisztráció",
+        "userId": 1,
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+        "user": {
+          "id": 1,
+          "first_name": "János",
+          "last_name": "Kiss",
+          "email": "janos@example.com"
+        }
+      }
+    },
+    "login": {
+      "url": "POST http://localhost:3000/api/auth/login",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "email": "janos@example.com",
+        "password": "jelszó123"
+      },
+      "response": {
+        "message": "Sikeres bejelentkezés",
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+        "user": {
+          "id": 1,
+          "first_name": "János",
+          "last_name": "Kiss",
+          "email": "janos@example.com"
+        }
+      }
+    },
+    "getProducts": {
+      "url": "GET http://localhost:3000/api/products",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "response": [
+        {
+          "id": 1,
+          "name": "Modern Kanapé",
+          "category_id": 1,
+          "price": 289900,
+          "description": "Prémium minőségű, modern stílusú ülőgarnitúra",
+          "stock": 14
+        }
+      ]
+    },
+    "createOrder": {
+      "url": "POST http://localhost:3000/api/orders",
+      "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+      },
+      "body": {
+        "user_id": 1,
+        "total_price": 45000,
+        "date": "2025-01-09",
+        "status": "Feldolgozás alatt"
+      },
+      "response": {
+        "id": 1,
+        "message": "Rendelés sikeresen hozzáadva"
+      }
+    }
+  },
+  "database_schema": {
+    "users": {
+      "id": "INT PRIMARY KEY AUTO_INCREMENT",
+      "first_name": "VARCHAR(100)",
+      "last_name": "VARCHAR(100)",
+      "email": "VARCHAR(200) UNIQUE",
+      "password_hash": "VARCHAR(255) NOT NULL",
+      "created_at": "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
+    },
+    "products": {
+      "id": "INT PRIMARY KEY AUTO_INCREMENT",
+      "name": "VARCHAR(200) NOT NULL",
+      "category_id": "INT FK",
+      "price": "INT NOT NULL",
+      "description": "TEXT",
+      "stock": "INT DEFAULT 50"
+    },
+    "categories": {
+      "id": "INT PRIMARY KEY AUTO_INCREMENT",
+      "name": "VARCHAR(100) NOT NULL"
+    },
+    "orders": {
+      "id": "INT PRIMARY KEY AUTO_INCREMENT",
+      "user_id": "INT FK",
+      "total_price": "INT",
+      "date": "DATE",
+      "status": "VARCHAR(50)"
+    },
+    "order_items": {
+      "id": "INT PRIMARY KEY AUTO_INCREMENT",
+      "order_id": "INT FK",
+      "product_id": "INT FK",
+      "quantity": "INT"
+    }
+  }
+}

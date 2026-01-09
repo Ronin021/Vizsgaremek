@@ -18,7 +18,8 @@ CREATE TABLE users (
     first_name VARCHAR(100),
     last_name VARCHAR(100),
     email VARCHAR(200) UNIQUE,
-    password_hash VARCHAR(255)
+    password_hash VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 --MÉG NINCS BENT DE LEHET LESZ EZ A TÁBLA IS
@@ -70,9 +71,9 @@ INSERT INTO products (name, category_id, price, description, stock) VALUES
 ("Dekorációs növény", 4, 19900, "Műnövény kerámia kaspóban", 30);
 
 INSERT INTO users (first_name, last_name, email, password_hash) VALUES
-("Kiss", "János", "janos@example.com", "hash1"),
-("Nagy", "Anna", "anna@example.com", "hash2"),
-("Kovács", "Péter", "peter@example.com", "hash3");
+("Kiss", "János", "janos@example.com", "$2a$10$X1fBH1xjW8S7Zn8K3r4P.ep5LlH0x8Y2w9Q6z3M2K1L0J9H8G7F6"),
+("Nagy", "Anna", "anna@example.com", "$2a$10$Y2gCc2yIx9T8Ao9L4s5Q.fq6MmI1y9Z3xAR7a4N3L2M1K0I9H8G7"),
+("Kovács", "Péter", "peter@example.com", "$2a$10$Z3hDd3zJy0U9Bp0M5t6R.gr7NnJ2z0A4yBS8b5O4M3N2L1J0I9H8");
 
 
 

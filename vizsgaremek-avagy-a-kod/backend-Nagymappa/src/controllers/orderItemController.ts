@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import * as orderItemService from '../services/orderItemService';
+import { OrderItemDto } from '../dto/orderItemDto';
 
 // Összes rendelési tétel
 export const getAllOrderItems = async (_req: Request, res: Response): Promise<void> => {
@@ -40,8 +41,8 @@ export const getOrderItems = async (req: Request, res: Response): Promise<void> 
 // Új rendelési tétel hozzáadása
 export const createOrderItem = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { orderId, productId, quantity } = req.body;
-    const id = await orderItemService.createOrderItem(orderId, productId, quantity);
+    const itemData: OrderItemDto = req.body;
+    const id = await orderItemService.createOrderItem(itemData.order_id, itemData.product_id, itemData.quantity);
     res.status(201).json({ id, message: 'Rendelési tétel sikeresen hozzáadva' });
   } catch (error) {
     res.status(500).json({ error: 'Hiba történt' });
@@ -52,8 +53,8 @@ export const createOrderItem = async (req: Request, res: Response): Promise<void
 export const updateOrderItem = async (req: Request, res: Response): Promise<void> => {
   try {
     const id = parseInt(req.params.id);
-    const { orderId, productId, quantity } = req.body;
-    const success = await orderItemService.updateOrderItem(id, orderId, productId, quantity);
+    const itemData: OrderItemDto = req.body;
+    const success = await orderItemService.updateOrderItem(id, itemData.order_id, itemData.product_id, itemData.quantity);
     if (success) {
       res.json({ message: 'Rendelési tétel sikeresen frissítve' });
     } else {
