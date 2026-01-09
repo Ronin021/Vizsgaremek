@@ -1,10 +1,27 @@
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import FeatureStrip from "../components/FeatureStrip";
 import ProductCard from "../components/ProductCard";
-import { products } from "../data/mockData";
+import { getProducts } from "../api/productApi.js";
 
 export default function HomePage() {
-  const featured = products.slice(0, 4);
+  const [featured, setFeatured] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchFeatured() {
+      try {
+        const products = await getProducts();
+        setFeatured(products.slice(0, 4));
+      } catch (err) {
+        console.error("Termékek betöltése sikertelen", err);
+        setFeatured([]);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchFeatured();
+  }, []);
 
   return (
     <div className="page page-home">

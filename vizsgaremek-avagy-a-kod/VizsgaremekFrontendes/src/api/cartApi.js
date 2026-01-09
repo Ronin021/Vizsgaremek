@@ -3,12 +3,12 @@ import { request } from "./client.js";
 
 // TELJES KOSÁR LEKÉRÉSE
 export function getCart() {
-  return request("/cart");
+  return request("/api/cart");
 }
 
 // ÚJ TÉTEL HOZZÁADÁSA
 export function addCartItem(productId, quantity = 1) {
-  return request("/cart", {
+  return request("/api/cart", {
     method: "POST",
     body: JSON.stringify({ productId, quantity }),
   });
@@ -16,7 +16,7 @@ export function addCartItem(productId, quantity = 1) {
 
 // MENNYISÉG MÓDOSÍTÁSA
 export function updateCartItem(itemId, quantity) {
-  return request(`/cart/${itemId}`, {
+  return request(`/api/cart/${itemId}`, {
     method: "PATCH",
     body: JSON.stringify({ quantity }),
   });
@@ -24,14 +24,14 @@ export function updateCartItem(itemId, quantity) {
 
 // TÉTEL TÖRLÉSE
 export function deleteCartItem(itemId) {
-  return request(`/cart/${itemId}`, {
+  return request(`/api/cart/${itemId}`, {
     method: "DELETE",
   });
 }
 
 // KOSÁR ÜRÍTÉSE
 export function clearCartApi() {
-  return request("/cart", {
+  return request("/api/cart", {
     method: "DELETE",
   });
 }

@@ -1,10 +1,48 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ProductCard from "../components/ProductCard";
-import { products } from "../data/mockData";
+import { getProducts } from "../api/productApi.js";
 
 export default function ProductsPage() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState("new");
+
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const data = await getProducts();
+        setProducts(data);
+      } catch (err) {
+        setError("Termékek betöltése sikertelen");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchProducts();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="page page-products">
+        <div className="container">
+          <p>Termékek betöltése...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="page page-products">
+        <div className="container">
+          <p className="error-message">{error}</p>
+        </div>
+      </div>
+    );
+  }
 
   const filtered = products
     .filter((p) =>

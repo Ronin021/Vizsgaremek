@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import * as productService from '../services/productService';
 import { ProductDto } from '../dto/productDto';
 
+
+
 // Összes termék
 export const getAllProducts = async (_req: Request, res: Response): Promise<void> => {
   try {

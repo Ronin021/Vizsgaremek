@@ -10,9 +10,13 @@ export function setActiveOrderId(id) {
   localStorage.setItem(ORDER_KEY, id);
 }
 
+export function clearActiveOrderId() {
+  localStorage.removeItem(ORDER_KEY);
+}
+
 /* ÚJ ORDER (kosár) létrehozása */
 export async function createOrder() {
-  const order = await request("/orders", {
+  const order = await request("/api/orders", {
     method: "POST"
   });
 
@@ -22,7 +26,7 @@ export async function createOrder() {
 
 /* Termék hozzáadása kosárhoz */
 export async function addOrderItem(orderId, productId, quantity = 1) {
-  return request(`/orders/${orderId}/items`, {
+  return request(`/api/orders/${orderId}/items`, {
     method: "POST",
     body: {
       product_id: productId,
@@ -33,12 +37,12 @@ export async function addOrderItem(orderId, productId, quantity = 1) {
 
 /* Kosár tételeinek lekérése */
 export async function getOrderItems(orderId) {
-  return request(`/orders/${orderId}/items`);
+  return request(`/api/orders/${orderId}/items`);
 }
 
 /* Mennyiség módosítása */
 export async function updateOrderItem(orderId, itemId, quantity) {
-  return request(`/orders/${orderId}/items/${itemId}`, {
+  return request(`/api/orders/${orderId}/items/${itemId}`, {
     method: "PATCH",
     body: { quantity }
   });
@@ -46,7 +50,15 @@ export async function updateOrderItem(orderId, itemId, quantity) {
 
 /* Törlés */
 export async function deleteOrderItem(orderId, itemId) {
-  return request(`/orders/${orderId}/items/${itemId}`, {
+  return request(`/api/orders/${orderId}/items/${itemId}`, {
     method: "DELETE"
   });
 }
+
+/* Rendelés befejezése */
+export async function completeOrder(orderId) {
+  return request(`/api/orders/${orderId}/complete`, {
+    method: "POST"
+  });
+}
+

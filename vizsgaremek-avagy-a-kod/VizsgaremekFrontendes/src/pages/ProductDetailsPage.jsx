@@ -1,19 +1,45 @@
-
 import { Link, useParams } from "react-router-dom";
-import { products } from "../data/mockData";
+import { useState, useEffect } from "react";
+import { getProductById } from "../api/productApi.js";
 import { useCart } from "../context/CartContext";
 
 export default function ProductDetailsPage() {
   const { id } = useParams();
   const { addToCart } = useCart();
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  const product = products.find((p) => p.id === Number(id));
+  useEffect(() => {
+    async function fetchProduct() {
+      try {
+        const data = await getProductById(id);
+        setProduct(data);
+      } catch (err) {
+        setError("Termék betöltése sikertelen");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchProduct();
+  }, [id]);
 
-  if (!product) {
+  if (loading) {
     return (
       <div className="page page-product-detail">
         <div className="container">
-          <p>Termék nem található.</p>
+          <p>Termék betöltése...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !product) {
+    return (
+      <div className="page page-product-detail">
+        <div className="container">
+          <p>{error || "Termék nem található."}</p>
           <Link to="/products" className="btn btn-black">
             Vissza a termékekhez
           </Link>

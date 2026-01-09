@@ -1,6 +1,7 @@
+import 'dotenv/config';
+
 import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
 import { errorHandler } from './middleware/errorHandler';
 import { authMiddleware } from './middleware/auth';
 
@@ -11,8 +12,6 @@ import productRoutes from './routes/products';
 import categoryRoutes from './routes/categories';
 import orderRoutes from './routes/orders';
 import orderItemRoutes from './routes/orderItems';
-
-dotenv.config();
 
 const app: Express = express();
 const PORT = process.env.PORT || 3000;

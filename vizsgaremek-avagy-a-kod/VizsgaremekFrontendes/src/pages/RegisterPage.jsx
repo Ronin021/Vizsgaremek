@@ -1,6 +1,39 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { register, setToken } from "../api/authApi.js";
 
 export default function RegisterPage() {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setError("");
+
+    if (password !== passwordConfirm) {
+      setError("A jelszavak nem egyeznek!");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await register(firstName, lastName, email, password);
+      setToken(response.token);
+      navigate("/");
+    } catch (err) {
+      setError(err.message || "Regisztráció sikertelen");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <div className="page page-auth">
       <div className="container auth-container">
@@ -14,26 +47,63 @@ export default function RegisterPage() {
             .
           </p>
 
-          <form className="auth-form">
+          <form className="auth-form" onSubmit={handleSubmit}>
+            {error && <p className="error-message">{error}</p>}
+            
             <label>
               Teljes név
-              <input type="text" required />
+              <input 
+                type="text" 
+                required 
+                placeholder="Keresztnév"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+              />
+            </label>
+            <label>
+              Vezetéknév
+              <input 
+                type="text" 
+                required 
+                placeholder="Vezetéknév"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+              />
             </label>
             <label>
               E-mail cím
-              <input type="email" required />
+              <input 
+                type="email" 
+                required 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </label>
             <label>
               Jelszó
-              <input type="password" required />
+              <input 
+                type="password" 
+                required 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </label>
             <label>
               Jelszó megerősítése
-              <input type="password" required />
+              <input 
+                type="password" 
+                required 
+                value={passwordConfirm}
+                onChange={(e) => setPasswordConfirm(e.target.value)}
+              />
             </label>
 
-            <button className="btn btn-black full-width" type="submit">
-              Regisztráció
+            <button 
+              className="btn btn-black full-width" 
+              type="submit"
+              disabled={loading}
+            >
+              {loading ? "Betöltés..." : "Regisztráció"}
             </button>
           </form>
 
