@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { login, setToken } from "../api/authApi.js";
+import { login as loginApi } from "../api/authApi.js";
+import { useAuth } from "../context/AuthContext.jsx";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -8,6 +9,7 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -15,8 +17,8 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const response = await login(email, password);
-      setToken(response.token);
+      const response = await loginApi(email, password);
+      login(response);
       navigate("/");
     } catch (err) {
       setError(err.message || "Bejelentkezés sikertelen");

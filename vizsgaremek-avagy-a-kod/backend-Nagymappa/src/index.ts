@@ -29,8 +29,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/categories', categoryRoutes);
-app.use('/api/orders', authMiddleware, orderRoutes);
-app.use('/api/order-items', authMiddleware, orderItemRoutes);
+app.use('/api/orders', orderRoutes); // Orders nem szükséges auth (kosár tárolása az FE-ben)
+app.use('/api/order-items', orderItemRoutes);
 
 // Health check endpoint
 app.get('/api/health', (_req: Request, res: Response): void => {

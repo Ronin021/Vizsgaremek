@@ -12,29 +12,32 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 
 import { CartProvider } from "./context/CartContext";
+import { AuthProvider } from "./context/AuthContext.jsx";
 
 function App() {
   return (
-    <CartProvider>
-      <div className="app-root">
-        <Header />
-        <main className="site-main">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/products" element={<ProductsPage />} />
-            <Route path="/products/:id" element={<ProductDetailsPage />} />
+    <AuthProvider>
+      <CartProvider>
+        <div className="app-root">
+          <Header />
+          <main className="site-main">
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/products" element={<ProductsPage />} />
+              <Route path="/products/:id" element={<ProductDetailsPage />} />
 
-            <Route path="/cart" element={<CartPage />} />
+              <Route path="/cart" element={<CartPage />} />
 
 
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
 
-          </Routes>
-        </main>
-        <Footer />
-      </div>
-    </CartProvider>
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      </CartProvider>
+    </AuthProvider>
   );
 }
 

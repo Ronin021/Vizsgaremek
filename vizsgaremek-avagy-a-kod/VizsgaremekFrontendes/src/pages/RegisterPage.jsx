@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { register, setToken } from "../api/authApi.js";
+import { register } from "../api/authApi.js";
+import { useAuth } from "../context/AuthContext.jsx";
 
 export default function RegisterPage() {
   const [firstName, setFirstName] = useState("");
@@ -11,6 +12,7 @@ export default function RegisterPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -25,7 +27,7 @@ export default function RegisterPage() {
 
     try {
       const response = await register(firstName, lastName, email, password);
-      setToken(response.token);
+      login(response);
       navigate("/");
     } catch (err) {
       setError(err.message || "Regisztráció sikertelen");

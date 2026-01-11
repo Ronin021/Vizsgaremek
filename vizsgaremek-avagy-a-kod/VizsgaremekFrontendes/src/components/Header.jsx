@@ -1,9 +1,15 @@
 
 import { Link, NavLink } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext.jsx";
 
 export default function Header() {
   const { itemCount } = useCart();
+  const { isLoggedIn, logout, user } = useAuth();
+
+  function handleLogout() {
+    logout();
+  }
 
   return (
     <header className="site-header">
@@ -41,10 +47,26 @@ export default function Header() {
             {itemCount > 0 && <span className="cart-badge">{itemCount}</span>}
           </Link>
                     
-          <Link to="/login" className="icon-button login-button">
-            <img src="/images/user.png" className="header-icon" />
-            <span className="login-text">Belépés</span>
-          </Link>
+          {isLoggedIn ? (
+            <div className="user-section">
+              <span className="user-name">
+                {user?.first_name} {user?.last_name}
+              </span>
+              <button 
+                className="icon-button logout-button"
+                onClick={handleLogout}
+                title="Kijelentkezés"
+              >
+                <img src="/images/user.png" className="header-icon" />
+                <span className="logout-text">Kilépés</span>
+              </button>
+            </div>
+          ) : (
+            <Link to="/login" className="icon-button login-button">
+              <img src="/images/user.png" className="header-icon" />
+              <span className="login-text">Belépés</span>
+            </Link>
+          )}
 
         </div>
       </div>

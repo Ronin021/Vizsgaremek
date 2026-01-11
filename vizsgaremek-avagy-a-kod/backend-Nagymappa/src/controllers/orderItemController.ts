@@ -30,7 +30,12 @@ export const getOrderItem = async (req: Request, res: Response): Promise<void> =
 // Rendeléshez tartozó tételek lekérése
 export const getOrderItems = async (req: Request, res: Response): Promise<void> => {
   try {
-    const orderId = parseInt(req.params.orderId);
+    const raw = req.params.orderId ?? req.params.id;
+    const orderId = parseInt(raw as string);
+    if (isNaN(orderId)) {
+      res.status(400).json({ error: 'Érvénytelen rendelés ID' });
+      return;
+    }
     const items = await orderItemService.getOrderItemsByOrderId(orderId);
     res.json(items);
   } catch (error) {
@@ -41,8 +46,10 @@ export const getOrderItems = async (req: Request, res: Response): Promise<void> 
 // Új rendelési tétel hozzáadása
 export const createOrderItem = async (req: Request, res: Response): Promise<void> => {
   try {
+    // orderId jöhet path paraméterből (/orders/:id/items) vagy body-ből (/order-items)
+    const orderId = parseInt(req.params.id || req.body.order_id);
     const itemData: OrderItemDto = req.body;
-    const id = await orderItemService.createOrderItem(itemData.order_id, itemData.product_id, itemData.quantity);
+    const id = await orderItemService.createOrderItem(orderId, itemData.product_id, itemData.quantity);
     res.status(201).json({ id, message: 'Rendelési tétel sikeresen hozzáadva' });
   } catch (error) {
     res.status(500).json({ error: 'Hiba történt' });
@@ -52,9 +59,9 @@ export const createOrderItem = async (req: Request, res: Response): Promise<void
 // Rendelési tétel frissítése
 export const updateOrderItem = async (req: Request, res: Response): Promise<void> => {
   try {
-    const id = parseInt(req.params.id);
-    const itemData: OrderItemDto = req.body;
-    const success = await orderItemService.updateOrderItem(id, itemData.order_id, itemData.product_id, itemData.quantity);
+    const itemId = parseInt(req.params.itemId || req.params.id);
+    const quantity = req.body.quantity;
+    const success = await orderItemService.updateOrderItem(itemId, 0, 0, quantity);
     if (success) {
       res.json({ message: 'Rendelési tétel sikeresen frissítve' });
     } else {
@@ -68,8 +75,8 @@ export const updateOrderItem = async (req: Request, res: Response): Promise<void
 // Rendelési tétel törlése
 export const deleteOrderItem = async (req: Request, res: Response): Promise<void> => {
   try {
-    const id = parseInt(req.params.id);
-    const success = await orderItemService.deleteOrderItem(id);
+    const itemId = parseInt(req.params.itemId || req.params.id);
+    const success = await orderItemService.deleteOrderItem(itemId);
     if (success) {
       res.json({ message: 'Rendelési tétel sikeresen törölve' });
     } else {
