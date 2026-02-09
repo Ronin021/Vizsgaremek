@@ -56,3 +56,11 @@ export const deleteOrder = async (id: number): Promise<boolean> => {
   connection.release();
   return (result as any).affectedRows > 0;
 };
+
+// Befejezi a rendelést: státusz frissítése
+export const completeOrder = async (id: number, status: string = 'Feldolgozás alatt'): Promise<boolean> => {
+  const connection = await pool.getConnection();
+  const [result] = await connection.query('UPDATE orders SET status = ? WHERE id = ?', [status, id]);
+  connection.release();
+  return (result as any).affectedRows > 0;
+};
