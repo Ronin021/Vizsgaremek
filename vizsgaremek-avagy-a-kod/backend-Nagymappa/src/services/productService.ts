@@ -4,15 +4,10 @@ import { ProductDto } from '../dto/productDto';
 
 // Összes termék lekérése
 export const getAllProducts = async (): Promise<Product[]> => {
-  try {
-    const connection = await pool.getConnection();
-    const [rows] = await connection.query('SELECT * FROM products');
-    connection.release();
-    return rows as Product[];
-  } catch (err) {
-    console.error('getAllProducts error:', err);
-    throw err;
-  }
+  const connection = await pool.getConnection();
+  const [rows] = await connection.query('SELECT * FROM products');
+  connection.release();
+  return rows as Product[];
 };
 
 // Egy termék lekérése ID alapján

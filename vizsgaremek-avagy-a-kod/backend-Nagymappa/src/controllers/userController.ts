@@ -68,3 +68,19 @@ export const deleteUser = async (req: Request, res: Response): Promise<void> => 
     res.status(500).json({ error: 'Hiba történt' });
   }
 };
+
+// Admin státusz beállítása (admin-only)
+export const setAdmin = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const id = parseInt(req.params.id);
+    const isAdmin = !!req.body.is_admin;
+    const success = await userService.setAdmin(id, isAdmin);
+    if (success) {
+      res.json({ message: `Felhasználó admin státusza frissítve: is_admin=${isAdmin}` });
+    } else {
+      res.status(404).json({ error: 'Felhasználó nem található' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Hiba történt' });
+  }
+};

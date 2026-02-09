@@ -32,8 +32,8 @@ export const getUserByEmail = async (email: string): Promise<User | null> => {
 export const createUser = async (user: UserDto): Promise<number> => {
   const connection = await pool.getConnection();
   const [result] = await connection.query(
-    'INSERT INTO users (first_name, last_name, email, password_hash) VALUES (?, ?, ?, ?)',
-    [user.first_name, user.last_name, user.email, user.password_hash]
+    'INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)',
+    [user.first_name, user.last_name, user.email, user.password]
   );
   connection.release();
   return (result as any).insertId;
@@ -43,8 +43,8 @@ export const createUser = async (user: UserDto): Promise<number> => {
 export const updateUser = async (id: number, user: UserDto): Promise<boolean> => {
   const connection = await pool.getConnection();
   const [result] = await connection.query(
-    'UPDATE users SET first_name = ?, last_name = ?, email = ?, password_hash = ? WHERE id = ?',
-    [user.first_name, user.last_name, user.email, user.password_hash, id]
+    'UPDATE users SET first_name = ?, last_name = ?, email = ?, password = ? WHERE id = ?',
+    [user.first_name, user.last_name, user.email, user.password, id]
   );
   connection.release();
   return (result as any).affectedRows > 0;
@@ -54,6 +54,14 @@ export const updateUser = async (id: number, user: UserDto): Promise<boolean> =>
 export const deleteUser = async (id: number): Promise<boolean> => {
   const connection = await pool.getConnection();
   const [result] = await connection.query('DELETE FROM users WHERE id = ?', [id]);
+  connection.release();
+  return (result as any).affectedRows > 0;
+};
+
+// Beállítja egy felhasználó admin státuszát
+export const setAdmin = async (id: number, isAdmin: boolean): Promise<boolean> => {
+  const connection = await pool.getConnection();
+  const [result] = await connection.query('UPDATE users SET is_admin = ? WHERE id = ?', [isAdmin ? 1 : 0, id]);
   connection.release();
   return (result as any).affectedRows > 0;
 };

@@ -1,5 +1,7 @@
 import { Router } from 'express';
 import * as productController from '../controllers/productController';
+import { authenticate } from '../middleware/auth';
+import { requireAdmin } from '../middleware/authorize';
 
 const router = Router();
 
@@ -9,13 +11,13 @@ router.get('/', productController.getAllProducts);
 // GET - egy termék
 router.get('/:id', productController.getProduct);
 
-// POST - új termék
-router.post('/', productController.createProduct);
+// POST - új termék (admin csak)
+router.post('/', authenticate, requireAdmin, productController.createProduct);
 
-// PUT - termék frissítése
-router.put('/:id', productController.updateProduct);
+// PUT - termék frissítése (admin csak)
+router.put('/:id', authenticate, requireAdmin, productController.updateProduct);
 
-// DELETE - termék törlése
-router.delete('/:id', productController.deleteProduct);
+// DELETE - termék törlése (admin csak)
+router.delete('/:id', authenticate, requireAdmin, productController.deleteProduct);
 
 export default router;

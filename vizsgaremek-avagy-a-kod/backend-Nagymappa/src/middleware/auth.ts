@@ -1,26 +1,27 @@
 import { Request, Response, NextFunction } from 'express';
-import { verifyToken } from '../utils/jwt';
+import jwt from 'jsonwebtoken';
 
-// Auth middleware - ellenőrzi a tokent
-export const authMiddleware = (req: Request, res: Response, next: NextFunction): void => {
+const JWT_SECRET = process.env.JWT_SECRET || 'CHANGE_THIS_SECRET';
+
+export interface JwtPayloadShape {
+  id: number;
+  email: string;
+  is_admin?: boolean;
+}
+
+export const authenticate = (req: Request, res: Response, next: NextFunction) => {
+  const auth = req.headers.authorization;
+  if (!auth || !auth.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'Nincs engedélyezve (token hiányzik)' });
+  }
+
+  const token = auth.split(' ')[1];
   try {
-    const token = req.headers.authorization?.split(' ')[1];
-    
-    if (!token) {
-      res.status(401).json({ error: 'Token hiányzik' });
-      return;
-    }
-
-    const decoded = verifyToken(token);
-    
-    if (!decoded) {
-      res.status(401).json({ error: 'Érvénytelen token' });
-      return;
-    }
-
-    (req as any).userId = decoded.userId;
+    const payload = jwt.verify(token, JWT_SECRET) as JwtPayloadShape;
+    // attach to req (loose typing)
+    (req as any).user = payload;
     next();
-  } catch (error) {
-    res.status(401).json({ error: 'Hitelesítés sikertelen' });
+  } catch (err) {
+    return res.status(401).json({ error: 'Érvénytelen token' });
   }
 };

@@ -3,7 +3,7 @@ import * as orderService from '../services/orderService';
 import { OrderDto } from '../dto/orderDto';
 
 // Összes rendelés
-export const getAllOrders = async (_req: Request, res: Response): Promise<void> => {
+export const getAllOrders = async (_req: Request, res: Response) => {
   try {
     const orders = await orderService.getAllOrders();
     res.json(orders);
@@ -13,7 +13,7 @@ export const getAllOrders = async (_req: Request, res: Response): Promise<void> 
 };
 
 // Egy rendelés ID alapján
-export const getOrder = async (req: Request, res: Response): Promise<void> => {
+export const getOrder = async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
     const order = await orderService.getOrderById(id);
@@ -28,7 +28,7 @@ export const getOrder = async (req: Request, res: Response): Promise<void> => {
 };
 
 // Felhasználó rendeléseit lekérése
-export const getOrdersByUser = async (req: Request, res: Response): Promise<void> => {
+export const getOrdersByUser = async (req: Request, res: Response) => {
   try {
     const userId = parseInt(req.params.userId);
     const orders = await orderService.getOrdersByUserId(userId);
@@ -39,7 +39,7 @@ export const getOrdersByUser = async (req: Request, res: Response): Promise<void
 };
 
 // Új rendelés hozzáadása
-export const createOrder = async (req: Request, res: Response): Promise<void> => {
+export const createOrder = async (req: Request, res: Response) => {
   try {
     const orderData: OrderDto = req.body;
     const id = await orderService.createOrder(orderData);
@@ -50,7 +50,7 @@ export const createOrder = async (req: Request, res: Response): Promise<void> =>
 };
 
 // Rendelés frissítése
-export const updateOrder = async (req: Request, res: Response): Promise<void> => {
+export const updateOrder = async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
     const orderData: OrderDto = req.body;
@@ -66,7 +66,7 @@ export const updateOrder = async (req: Request, res: Response): Promise<void> =>
 };
 
 // Rendelés törlése
-export const deleteOrder = async (req: Request, res: Response): Promise<void> => {
+export const deleteOrder = async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
     const success = await orderService.deleteOrder(id);

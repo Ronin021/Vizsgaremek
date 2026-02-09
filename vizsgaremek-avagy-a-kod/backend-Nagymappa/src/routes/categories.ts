@@ -1,5 +1,7 @@
 import { Router } from 'express';
 import * as categoryController from '../controllers/categoryController';
+import { authenticate } from '../middleware/auth';
+import { requireAdmin } from '../middleware/authorize';
 
 const router = Router();
 
@@ -10,12 +12,12 @@ router.get('/', categoryController.getAllCategories);
 router.get('/:id', categoryController.getCategory);
 
 // POST - új kategória
-router.post('/', categoryController.createCategory);
+router.post('/', authenticate, requireAdmin, categoryController.createCategory);
 
 // PUT - kategória frissítése
-router.put('/:id', categoryController.updateCategory);
+router.put('/:id', authenticate, requireAdmin, categoryController.updateCategory);
 
 // DELETE - kategória törlése
-router.delete('/:id', categoryController.deleteCategory);
+router.delete('/:id', authenticate, requireAdmin, categoryController.deleteCategory);
 
 export default router;

@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import * as orderController from '../controllers/orderController';
-import * as orderItemController from '../controllers/orderItemController';
+import { authenticate } from '../middleware/auth';
+import { requireAdmin } from '../middleware/authorize';
 
 const router = Router();
 
@@ -10,28 +11,16 @@ router.get('/', orderController.getAllOrders);
 // GET - egy rendelés
 router.get('/:id', orderController.getOrder);
 
-// GET - rendeléshez tartozó tételek (compat: /api/orders/:id/items)
-router.get('/:id/items', orderItemController.getOrderItems);
+// GET - felhasználó rendeléseit (autentikáció szükséges)
+router.get('/user/:userId', authenticate, orderController.getOrdersByUser);
 
-// POST - új rendelési tétel (compat: /api/orders/:id/items)
-router.post('/:id/items', orderItemController.createOrderItem);
+// POST - új rendelés (user-nek be kell jelentkeznie)
+router.post('/', authenticate, orderController.createOrder);
 
-// PATCH - rendelési tétel mennyiségét módosítása (compat: /api/orders/:orderId/items/:itemId)
-router.patch('/:orderId/items/:itemId', orderItemController.updateOrderItem);
+// PUT - rendelés frissítése (admin vagy jogosult user szükséges)
+router.put('/:id', authenticate, requireAdmin, orderController.updateOrder);
 
-// DELETE - rendelési tétel törlése (compat: /api/orders/:orderId/items/:itemId)
-router.delete('/:orderId/items/:itemId', orderItemController.deleteOrderItem);
-
-// GET - felhasználó rendeléseit
-router.get('/user/:userId', orderController.getOrdersByUser);
-
-// POST - új rendelés
-router.post('/', orderController.createOrder);
-
-// PUT - rendelés frissítése
-router.put('/:id', orderController.updateOrder);
-
-// DELETE - rendelés törlése
-router.delete('/:id', orderController.deleteOrder);
+// DELETE - rendelés törlése (admin vagy jogosult user szükséges)
+router.delete('/:id', authenticate, requireAdmin, orderController.deleteOrder);
 
 export default router;
