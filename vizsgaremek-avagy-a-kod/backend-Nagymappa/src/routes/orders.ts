@@ -14,8 +14,8 @@ router.get('/:id', orderController.getOrder);
 // GET - felhasználó rendeléseit (autentikáció szükséges)
 router.get('/user/:userId', authenticate, orderController.getOrdersByUser);
 
-// POST - új rendelés (user-nek be kell jelentkeznie)
-router.post('/', authenticate, orderController.createOrder);
+// POST - új rendelés (kosár létrehozás — vendég is)
+router.post('/', orderController.createOrder);
 
 // PUT - rendelés frissítése (admin vagy jogosult user szükséges)
 router.put('/:id', authenticate, requireAdmin, orderController.updateOrder);

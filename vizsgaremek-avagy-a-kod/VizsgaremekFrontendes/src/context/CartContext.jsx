@@ -24,8 +24,15 @@ export function CartProvider({ children }) {
         return;
       }
 
-      const res = await getOrderItems(orderId);
-      setItems(res);
+      try {
+        const res = await getOrderItems(orderId);
+        setItems(res);
+      } catch {
+        // Ha a tárolt orderId már nem létezik az adatbázisban → töröljük
+        localStorage.removeItem("active_order_id");
+        setOrderId(null);
+        setItems([]);
+      }
       setLoading(false);
     }
     load();
@@ -42,7 +49,15 @@ export function CartProvider({ children }) {
       setActiveOrderId(id);
     }
 
-    await addOrderItem(id, productId, quantity);
+    try {
+      await addOrderItem(id, productId, quantity);
+    } catch {
+      // Ha az orderId érvénytelen → új kosár, újrapróbálás
+      id = await createOrder();
+      setOrderId(id);
+      setActiveOrderId(id);
+      await addOrderItem(id, productId, quantity);
+    }
 
     const updated = await getOrderItems(id);
     setItems(updated);

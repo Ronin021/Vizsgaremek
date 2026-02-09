@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import * as orderItemController from '../controllers/orderItemController';
-import { authenticate } from '../middleware/auth';
 
 const router = Router();
 
@@ -10,16 +9,16 @@ router.get('/', orderItemController.getAllOrderItems);
 // GET - egy rendelési tétel
 router.get('/:id', orderItemController.getOrderItem);
 
-// GET - rendeléshez tartozó tételek (auth ajánlott)
-router.get('/order/:orderId', authenticate, orderItemController.getOrderItems);
+// GET - rendeléshez tartozó tételek (kosár lekérése — vendég is)
+router.get('/order/:orderId', orderItemController.getOrderItems);
 
-// POST - új rendelési tétel (autentikáció szükséges)
-router.post('/', authenticate, orderItemController.createOrderItem);
+// POST - új rendelési tétel (kosárba rakás — vendég is)
+router.post('/', orderItemController.createOrderItem);
 
-// PUT - rendelési tétel frissítése (auth, owner/admin ellenőrzés javasolt)
-router.put('/:id', authenticate, orderItemController.updateOrderItem);
+// PUT - rendelési tétel frissítése (mennyiség módosítás — vendég is)
+router.put('/:id', orderItemController.updateOrderItem);
 
-// DELETE - rendelési tétel törlése (auth, owner/admin ellenőrzés javasolt)
-router.delete('/:id', authenticate, orderItemController.deleteOrderItem);
+// DELETE - rendelési tétel törlése (kosárból eltávolítás — vendég is)
+router.delete('/:id', orderItemController.deleteOrderItem);
 
 export default router;

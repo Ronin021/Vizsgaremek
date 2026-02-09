@@ -48,12 +48,14 @@ export const createOrderItem = async (req: Request, res: Response): Promise<void
   }
 };
 
-// Rendelési tétel frissítése
+// Rendelési tétel frissítése (mennyiség módosítás is támogatva)
 export const updateOrderItem = async (req: Request, res: Response): Promise<void> => {
   try {
     const id = parseInt(req.params.id);
-    const { orderId, productId, quantity } = req.body;
-    const success = await orderItemService.updateOrderItem(id, orderId, productId, quantity);
+    const { quantity } = req.body;
+
+    // Ha csak quantity jött → egyszerű mennyiség frissítés
+    const success = await orderItemService.updateOrderItemQuantity(id, quantity);
     if (success) {
       res.json({ message: 'Rendelési tétel sikeresen frissítve' });
     } else {

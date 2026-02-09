@@ -26,10 +26,11 @@ export async function createOrder() {
 
 /* Termék hozzáadása kosárhoz */
 export async function addOrderItem(orderId, productId, quantity = 1) {
-  return request(`/api/orders/${orderId}/items`, {
+  return request("/api/orderItems", {
     method: "POST",
     body: {
-      product_id: productId,
+      orderId: Number(orderId),
+      productId: Number(productId),
       quantity: quantity
     }
   });
@@ -37,28 +38,33 @@ export async function addOrderItem(orderId, productId, quantity = 1) {
 
 /* Kosár tételeinek lekérése */
 export async function getOrderItems(orderId) {
-  return request(`/api/orders/${orderId}/items`);
+  return request(`/api/orderItems/order/${orderId}`);
 }
 
 /* Mennyiség módosítása */
 export async function updateOrderItem(orderId, itemId, quantity) {
-  return request(`/api/orders/${orderId}/items/${itemId}`, {
-    method: "PATCH",
-    body: { quantity }
+  return request(`/api/orderItems/${itemId}`, {
+    method: "PUT",
+    body: {
+      orderId: Number(orderId),
+      productId: null,
+      quantity: quantity
+    }
   });
 }
 
 /* Törlés */
 export async function deleteOrderItem(orderId, itemId) {
-  return request(`/api/orders/${orderId}/items/${itemId}`, {
+  return request(`/api/orderItems/${itemId}`, {
     method: "DELETE"
   });
 }
 
 /* Rendelés befejezése */
 export async function completeOrder(orderId) {
-  return request(`/api/orders/${orderId}/complete`, {
-    method: "POST"
+  return request(`/api/orders/${orderId}`, {
+    method: "PUT",
+    body: { status: "Feldolgozás alatt" }
   });
 }
 

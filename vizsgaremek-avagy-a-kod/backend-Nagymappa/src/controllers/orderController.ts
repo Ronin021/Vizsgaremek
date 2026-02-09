@@ -38,10 +38,15 @@ export const getOrdersByUser = async (req: Request, res: Response) => {
   }
 };
 
-// Új rendelés hozzáadása
+// Új rendelés hozzáadása (kosár létrehozás — vendég is, üres body-val)
 export const createOrder = async (req: Request, res: Response) => {
   try {
-    const orderData: OrderDto = req.body;
+    const orderData: OrderDto = {
+      user_id: req.body?.user_id || null,
+      total_price: req.body?.total_price || 0,
+      date: req.body?.date || new Date().toISOString().slice(0, 10),
+      status: req.body?.status || 'Kosár',
+    };
     const id = await orderService.createOrder(orderData);
     res.status(201).json({ id, message: 'Rendelés sikeresen hozzáadva' });
   } catch (error) {
