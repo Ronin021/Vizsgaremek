@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import * as orderService from '../services/orderService';
 import { OrderDto } from '../dto/orderDto';
-import * as orderItemService from '../services/orderItemService';
 
 // Összes rendelés
 export const getAllOrders = async (_req: Request, res: Response) => {
@@ -75,74 +74,6 @@ export const deleteOrder = async (req: Request, res: Response) => {
       res.json({ message: 'Rendelés sikeresen törölve' });
     } else {
       res.status(404).json({ error: 'Rendelés nem található' });
-    }
-  } catch (error) {
-    res.status(500).json({ error: 'Hiba történt' });
-  }
-};
-
-// Rendelés befejezése (státusz módosítása)
-export const completeOrder = async (req: Request, res: Response) => {
-  try {
-    const id = parseInt(req.params.id);
-    // Alapértelmezett státusz: Feldolgozás alatt
-    const status = req.body?.status || 'Feldolgozás alatt';
-    const success = await orderService.completeOrder(id, status);
-    if (success) {
-      res.json({ message: 'Rendelés sikeresen befejezve' });
-    } else {
-      res.status(404).json({ error: 'Rendelés nem található' });
-    }
-  } catch (error) {
-    res.status(500).json({ error: 'Hiba történt' });
-  }
-};
-
-// --- Belső proxy végpontok a frontend REST konvenciójához (nested order items)
-export const getOrderItemsForOrder = async (req: Request, res: Response) => {
-  try {
-    const orderId = parseInt(req.params.id);
-    const items = await orderItemService.getOrderItemsByOrderId(orderId);
-    res.json(items);
-  } catch (error) {
-    res.status(500).json({ error: 'Hiba történt' });
-  }
-};
-
-export const addOrderItemToOrder = async (req: Request, res: Response) => {
-  try {
-    const orderId = parseInt(req.params.id);
-    const { product_id, quantity } = req.body;
-    const id = await orderItemService.createOrderItem(orderId, product_id, quantity || 1);
-    res.status(201).json({ id, message: 'Rendelési tétel sikeresen hozzáadva' });
-  } catch (error) {
-    res.status(500).json({ error: 'Hiba történt' });
-  }
-};
-
-export const updateOrderItemQuantityForOrder = async (req: Request, res: Response) => {
-  try {
-    const itemId = parseInt(req.params.itemId);
-    const { quantity } = req.body;
-    const success = await orderItemService.updateOrderItemQuantity(itemId, quantity);
-    if (success) {
-      res.json({ message: 'Rendelési tétel mennyiség frissítve' });
-    } else {
-      res.status(404).json({ error: 'Rendelési tétel nem található' });
-    }
-  } catch (error) {
-    res.status(500).json({ error: 'Hiba történt' });
-  }
-};
-
-export const deleteOrderItemFromOrder = async (req: Request, res: Response) => {
-  try {
-    const itemId = parseInt(req.params.itemId);
-    const success = await orderItemService.deleteOrderItem(itemId);
-    if (success) {
-      res.json({ message: 'Rendelési tétel sikeresen törölve' });
-    } else {
-      res.status(404).json({ error: 'Rendelési tétel nem található' });
     }
   } catch (error) {
     res.status(500).json({ error: 'Hiba történt' });

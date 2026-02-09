@@ -48,17 +48,6 @@ export const updateOrderItem = async (id: number, orderId: number, productId: nu
   return (result as any).affectedRows > 0;
 };
 
-// Csak a mennyiség frissítése (kényelem a frontend PATCH hívásához)
-export const updateOrderItemQuantity = async (id: number, quantity: number): Promise<boolean> => {
-  const connection = await pool.getConnection();
-  const [result] = await connection.query(
-    'UPDATE order_items SET quantity = ? WHERE id = ?',
-    [quantity, id]
-  );
-  connection.release();
-  return (result as any).affectedRows > 0;
-};
-
 // Rendelési tétel törlése
 export const deleteOrderItem = async (id: number): Promise<boolean> => {
   const connection = await pool.getConnection();

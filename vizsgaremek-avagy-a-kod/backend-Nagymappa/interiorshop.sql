@@ -54,23 +54,23 @@ CREATE TABLE IF NOT EXISTS order_items (
     FOREIGN KEY (product_id) REFERENCES products(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 INSERT INTO categories (name) VALUES
-('Nappali'),
-('Hálószoba'),
-('Étkező'),
-('Dekoráció'),
-('Világítás');
+("Nappali"),
+("Hálószoba"),
+("Étkező"),
+("Dekoráció"),
+("Világítás");
 
 INSERT INTO products (name, category_id, price, description, stock) VALUES
-('Modern Kanapé', 1, 289900, 'Prémium minőségű, modern stílusú ülőgarnitúra', 14),
-('Skandináv Fotel', 1, 159900, 'Kényelmes, letisztult fotel', 20),
-('Tölgyfa Étkezőasztal', 3, 329900, 'Tömör fa étkezőasztal — 6 személyes', 9),
-('Étkezőszék szett (4db)', 3, 119900, 'Modern étkezőszékek 4 darabos kiszerelésben', 17),
-('Minimal Éjjeliszekrény', 2, 69900, 'Egyszerű, skandináv éjjeliszekrény', 23),
-('King Size Ágykeret', 2, 359900, 'Elegáns ágykeret 180x200 cm', 6),
-('Falióra Loft Style', 4, 24900, 'Indusztriális stílusú fém falióra', 50),
-('LED állólámpa', 5, 79900, 'Modern design állólámpa – melegfényű', 32),
-('Szürke szőnyeg 200x300', 1, 89900, 'Nagyméretű nappali szőnyeg', 15),
-('Dekorációs növény', 4, 19900, 'Műnövény kerámia kaspóban', 30);
+("Modern Kanapé", 1, 289900, "Prémium minőségű, modern stílusú ülőgarnitúra", 14),
+("Skandináv Fotel", 1, 159900, "Kényelmes, letisztult fotel", 20),
+("Tölgyfa Étkezőasztal", 3, 329900, "Tömör fa étkezőasztal — 6 személyes", 9),
+("Étkezőszék szett (4db)", 3, 119900, "Modern étkezőszékek 4 darabos kiszerelésben", 17),
+("Minimal Éjjeliszekrény", 2, 69900, "Egyszerű, skandináv éjjeliszekrény", 23),
+("King Size Ágykeret", 2, 359900, "Elegáns ágykeret 180x200 cm", 6),
+("Falióra Loft Style", 4, 24900, "Indusztriális stílusú fém falióra", 50),
+("LED állólámpa", 5, 79900, "Modern design állólámpa – melegfényű", 32),
+("Szürke szőnyeg 200x300", 1, 89900, "Nagyméretű nappali szőnyeg", 15),
+("Dekorációs növény", 4, 19900, "Műnövény kerámia kaspóban", 30);
 
 -- Seed user jelszavak (SHA-256 a backendben):
 -- janos@example.com / janos123
@@ -79,19 +79,19 @@ INSERT INTO products (name, category_id, price, description, stock) VALUES
 -- admin@example.com / admin123
 
 INSERT INTO users (first_name, last_name, email, password, is_admin) VALUES
-('Kiss', 'János', 'janos@example.com', 'janos123', 0),
-('Nagy', 'Anna', 'anna@example.com', 'anna123', 0),
-('Kovács', 'Péter', 'peter@example.com', 'peter123', 0),
-('Admin', 'Admin', 'admin@example.com', 'admin123', 1);
+("Kiss", "János", "janos@example.com", "janos123", 0),
+("Nagy", "Anna", "anna@example.com", "anna123", 0),
+("Kovács", "Péter", "peter@example.com", "peter123", 0),
+("Admin", "Admin", "admin@example.com", "admin123", 1);
 
 
 
 -- MÉG NINCS BENT DE LEHET LESZ EZ A TÁBLA IS
 INSERT INTO reviews (product_id, user_id, rating, text, created_at) VALUES
-(1, 1, 5, 'Gigászian jó! Brutál kényelmes!', '2025-10-15'),
-(1, 2, 3, 'Közepes, de ár-érték arány rendben van.', '2025-10-14'),
-(2, 3, 4, 'Nagyon kényelmes, jól néz ki.', '2025-11-02'),
-(4, 1, 5, 'Szuper minőség, ajánlom!', '2025-11-06');
+(1, 1, 5, "Gigászian jó! Brutál kényelmes!", "2025-10-15"),
+(1, 2, 3, "Közepes, de ár-érték arány rendben van.", "2025-10-14"),
+(2, 3, 4, "Nagyon kényelmes, jól néz ki.", "2025-11-02"),
+(4, 1, 5, "Szuper minőség, ajánlom!", "2025-11-06");
 
 INSERT INTO orders (user_id, total_price, date, status) VALUES
 (1, 289900, "2025-10-15", "Kiszállítva"),
