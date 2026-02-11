@@ -18,8 +18,8 @@ router.get('/:id', orderController.getOrder);
 // POST - új rendelés (kosár létrehozás — vendég is)
 router.post('/', orderController.createOrder);
 
-// PUT - rendelés frissítése (admin vagy jogosult user szükséges)
-router.put('/:id', authenticate, requireAdmin, orderController.updateOrder);
+// PUT - rendelés frissítése (autentikáció szükséges, nem csak admin)
+router.put('/:id', authenticate, orderController.updateOrder);
 
 // DELETE - rendelés törlése (admin vagy jogosult user szükséges)
 router.delete('/:id', authenticate, requireAdmin, orderController.deleteOrder);

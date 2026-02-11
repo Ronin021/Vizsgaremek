@@ -765,6 +765,16 @@ select {
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 }
 
+/* Ensure action buttons inside cart summary are equal width */
+.cart-summary .btn {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+.cart-summary .btn + .btn {
+  margin-top: 10px;
+}
+
 .cart-summary h2 {
   margin-top: 0;
   margin-bottom: 14px;
@@ -866,6 +876,92 @@ select {
 
 .checkout-submit {
   margin-top: 18px;
+}
+
+/* Checkout summary */
+.checkout-summary {
+  align-self: flex-start;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 18px 18px 20px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+}
+
+.checkout-summary h2 {
+  margin-top: 0;
+  margin-bottom: 14px;
+  font-size: 1.2rem;
+}
+
+.summary-items {
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+}
+
+.summary-item {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 8px;
+  font-size: 0.9rem;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.summary-item:last-child {
+  margin-bottom: 0;
+}
+
+.item-name {
+  font-weight: 500;
+  color: #111827;
+}
+
+.item-qty {
+  color: #6b7280;
+  font-size: 0.85rem;
+}
+
+.item-price {
+  font-weight: 600;
+  color: #111827;
+  text-align: right;
+}
+
+.summary-totals {
+  margin: 0;
+}
+
+/* Payment methods */
+.payment-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.payment-radio {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.payment-radio:hover {
+  background: #f9fafb;
+  border-color: #ff8a00;
+}
+
+.payment-radio input[type="radio"] {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
 }
 
 /* Összegző doboz */

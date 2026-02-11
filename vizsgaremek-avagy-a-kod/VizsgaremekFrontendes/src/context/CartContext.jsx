@@ -50,7 +50,16 @@ export function CartProvider({ children }) {
     }
 
     try {
-      await addOrderItem(id, productId, quantity);
+      // Ellenőrizze, hogy a termék már a kosárban van-e
+      const existingItem = items.find(item => item.product.id === productId);
+      
+      if (existingItem) {
+        // Ha már létezik, a mennyiséget növeljük
+        await updateOrderItem(id, existingItem.id, existingItem.quantity + quantity);
+      } else {
+        // Ha nem létezik, új tételt adunk hozzá
+        await addOrderItem(id, productId, quantity);
+      }
     } catch {
       // Ha az orderId érvénytelen → új kosár, újrapróbálás
       id = await createOrder();

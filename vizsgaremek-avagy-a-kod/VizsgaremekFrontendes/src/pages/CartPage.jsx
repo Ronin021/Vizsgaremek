@@ -139,7 +139,7 @@ if (isEmpty) {
           )}
 
           <button
-            className="btn btn-black"
+            className="btn btn-black full-width"
             type="button"
             onClick={() => navigate("/checkout")}
           >

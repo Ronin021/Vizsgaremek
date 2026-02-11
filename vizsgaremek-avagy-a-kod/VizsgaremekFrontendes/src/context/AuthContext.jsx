@@ -11,10 +11,18 @@ export function AuthProvider({ children }) {
   /* BEJELENTKEZÉS ÁLLAPOT LEKÉRÉSE INDULÁSKOR */
   useEffect(() => {
     const token = getToken();
-    if (token) {
-      setIsLoggedIn(true);
-      // TODO: token alapján user info lekérése
-      setUser({ token });
+    const storedUser = localStorage.getItem("user");
+    
+    if (token && storedUser) {
+      try {
+        const userData = JSON.parse(storedUser);
+        setIsLoggedIn(true);
+        setUser(userData);
+      } catch (err) {
+        console.error("Nem sikerült a user adat betöltése", err);
+        removeToken();
+        localStorage.removeItem("user");
+      }
     }
     setLoading(false);
   }, []);
@@ -23,6 +31,7 @@ export function AuthProvider({ children }) {
   function login(response) {
     // response tartalmaz: token, user { id, first_name, last_name, email }
     setToken(response.token);
+    localStorage.setItem("user", JSON.stringify(response.user));
     setIsLoggedIn(true);
     setUser(response.user);
   }
@@ -30,6 +39,7 @@ export function AuthProvider({ children }) {
   /* KIJELENTKEZÉS */
   function logout() {
     removeToken();
+    localStorage.removeItem("user");
     setIsLoggedIn(false);
     setUser(null);
   }
