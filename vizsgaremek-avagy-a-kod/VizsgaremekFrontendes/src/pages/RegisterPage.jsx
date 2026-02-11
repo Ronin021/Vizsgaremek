@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { register } from "../api/authApi.js";
+import { register, login as apiLogin } from "../api/authApi.js";
 import { useAuth } from "../context/AuthContext.jsx";
 
 export default function RegisterPage() {
@@ -26,8 +26,9 @@ export default function RegisterPage() {
     setLoading(true);
 
     try {
-      const response = await register(firstName, lastName, email, password);
-      login(response);
+      await register(firstName, lastName, email, password);
+      const authResponse = await apiLogin(email, password);
+      login(authResponse);
       navigate("/");
     } catch (err) {
       setError(err.message || "Regisztráció sikertelen");
