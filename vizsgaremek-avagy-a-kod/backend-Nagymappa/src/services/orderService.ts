@@ -31,8 +31,8 @@ export const getOrdersByUserId = async (userId: number): Promise<Order[]> => {
 export const createOrder = async (order: OrderDto): Promise<number> => {
   const connection = await pool.getConnection();
   const [result] = await connection.query(
-    'INSERT INTO orders (user_id, total_price, date, status) VALUES (?, ?, ?, ?)',
-    [order.user_id, order.total_price, order.date, order.status]
+    'INSERT INTO orders (user_id, total_price, date, status, payment_method, shipping_address, phone) VALUES (?, ?, ?, ?, ?, ?, ?)',
+    [order.user_id, order.total_price, order.date, order.status, order.payment_method, order.shipping_address, order.phone]
   );
   connection.release();
   return (result as any).insertId;
@@ -42,8 +42,8 @@ export const createOrder = async (order: OrderDto): Promise<number> => {
 export const updateOrder = async (id: number, order: OrderDto): Promise<boolean> => {
   const connection = await pool.getConnection();
   const [result] = await connection.query(
-    'UPDATE orders SET user_id = ?, total_price = ?, date = ?, status = ? WHERE id = ?',
-    [order.user_id, order.total_price, order.date, order.status, id]
+    'UPDATE orders SET user_id = ?, total_price = ?, date = ?, status = ?, payment_method = ?, shipping_address = ?, phone = ? WHERE id = ?',
+    [order.user_id, order.total_price, order.date, order.status, order.payment_method, order.shipping_address, order.phone, id]
   );
   connection.release();
   return (result as any).affectedRows > 0;

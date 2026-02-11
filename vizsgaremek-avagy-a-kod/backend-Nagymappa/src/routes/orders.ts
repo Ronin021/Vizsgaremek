@@ -8,11 +8,12 @@ const router = Router();
 // GET - összes rendelés
 router.get('/', orderController.getAllOrders);
 
+// GET - felhasználó rendeléseit (autentikáció szükséges)
+// ⚠️ FONTOS: Ezt az `/:id` ELŐTT kell, mert Express az első matchelő route-ot használja!
+router.get('/user/:userId', authenticate, orderController.getOrdersByUser);
+
 // GET - egy rendelés
 router.get('/:id', orderController.getOrder);
-
-// GET - felhasználó rendeléseit (autentikáció szükséges)
-router.get('/user/:userId', authenticate, orderController.getOrdersByUser);
 
 // POST - új rendelés (kosár létrehozás — vendég is)
 router.post('/', orderController.createOrder);

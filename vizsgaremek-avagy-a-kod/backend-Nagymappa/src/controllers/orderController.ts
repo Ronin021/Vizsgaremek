@@ -46,6 +46,9 @@ export const createOrder = async (req: Request, res: Response) => {
       total_price: req.body?.total_price || 0,
       date: req.body?.date || new Date().toISOString().slice(0, 10),
       status: req.body?.status || 'Kosár',
+      payment_method: req.body?.payment_method || 'Utánvét',
+      shipping_address: req.body?.shipping_address || '',
+      phone: req.body?.phone || '',
     };
     const id = await orderService.createOrder(orderData);
     res.status(201).json({ id, message: 'Rendelés sikeresen hozzáadva' });

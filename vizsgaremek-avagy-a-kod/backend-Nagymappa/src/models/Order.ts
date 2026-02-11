@@ -5,4 +5,7 @@ export interface Order {
   total_price: number;
   date: string;
   status: string;
+  payment_method: string;
+  shipping_address: string;
+  phone: string;
 }

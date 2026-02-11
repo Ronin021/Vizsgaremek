@@ -59,6 +59,9 @@ CREATE TABLE orders (
     total_price INT,
     date DATE,
     status VARCHAR(50),
+    payment_method VARCHAR(50),
+    shipping_address VARCHAR(500),
+    phone VARCHAR(20),
     FOREIGN KEY (user_id) REFERENCES users(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
