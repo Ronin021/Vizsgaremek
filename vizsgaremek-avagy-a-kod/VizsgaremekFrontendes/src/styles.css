@@ -767,7 +767,7 @@ select {
 
 /* Ensure action buttons inside cart summary are equal width */
 .cart-summary .btn {
-  display: block;
+  display: flex;
   width: 100%;
   box-sizing: border-box;
 }
