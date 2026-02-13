@@ -38,6 +38,16 @@ export default function Header() {
           >
             Termékek
           </NavLink>
+          {isLoggedIn && user?.is_admin && (
+            <NavLink
+              to="/admin"
+              className={({ isActive }) =>
+                "nav-link" + (isActive ? " nav-link-active" : "")
+              }
+            >
+              Admin
+            </NavLink>
+          )}
         </nav>
 
         {/* AKCIÓK: kosár + belépés */}
@@ -50,15 +60,20 @@ export default function Header() {
           {isLoggedIn ? (
             <div className="user-section">
               <span className="user-name">
-                {user?.first_name} {user?.last_name}
+                {user?.first_name}
               </span>
+              {user?.is_admin && (
+                <Link to="/admin" className="icon-button dashboard-button" title="Admin Dashboard">
+                  ⊞
+                </Link>
+              )}
               <button 
-                className="icon-button logout-button"
+                className="icon-button login-button"
                 onClick={handleLogout}
                 title="Kijelentkezés"
               >
                 <img src="/images/user.png" className="header-icon" />
-                <span className="logout-text">Kilépés</span>
+                <span className="login-text">Kilépés</span>
               </button>
             </div>
           ) : (

@@ -1,0 +1,79 @@
+/* ===== Home Page ===== */
+
+/* Hero Section */
+
+.page-home .hero {
+  padding-block: 40px 60px;
+  background: #fff4df;
+}
+
+.hero-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 40px;
+}
+
+.hero-text h1 {
+  font-size: 2.2rem;
+  margin-bottom: 12px;
+}
+
+.hero-text p {
+  margin: 0 0 22px;
+  color: #4b5563;
+  max-width: 460px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 14px;
+}
+
+/* Hero Image Card */
+
+.hero-image-card {
+  border-radius: 24px;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0 30px 60px rgba(15, 23, 42, 0.15);
+}
+
+.hero-image-placeholder {
+  width: 100%;
+  padding-bottom: 66%;
+  background: url("https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=800")
+    center / cover no-repeat;
+}
+
+/* Hero Features */
+
+.hero-features {
+  padding-block: 30px 50px;
+}
+
+/* ===== Feature Strip ===== */
+
+.feature-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.feature-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 18px 20px;
+  border: 1px solid #f3f4f6;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04);
+}
+
+.feature-title {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.feature-sub {
+  font-size: 0.85rem;
+  color: #6b7280;
+}

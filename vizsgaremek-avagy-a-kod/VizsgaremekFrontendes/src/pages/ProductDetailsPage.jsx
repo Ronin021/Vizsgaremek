@@ -61,13 +61,15 @@ export default function ProductDetailsPage() {
           </div>
 
           <div className="product-detail-main">
-            <span className="detail-category">{product.category}</span>
+            <span className="detail-category">{product.category_name}</span>
 
             <h1 className="detail-title">{product.name}</h1>
 
             <p className="detail-price">
               {product.price.toLocaleString("hu-HU")} Ft
-              <span className="detail-stock">Raktáron</span>
+              <span className={`detail-stock ${product.stock > 0 ? "in-stock" : "out-of-stock"}`}>
+                {product.stock > 0 ? "Raktáron" : "Nincs raktáron"}
+              </span>
             </p>
 
             <p className="detail-description">
@@ -75,12 +77,18 @@ export default function ProductDetailsPage() {
                 "Kortárs stílusú LED világítás. Állítható fényerővel és energiatakarékos technológiával."}
             </p>
 
-            <button
-              className="btn btn-black detail-add-btn"
-              onClick={() => addToCart(product.id, 1)}
-            >
-              Kosárba helyezés
-            </button>
+            {product.stock > 0 ? (
+              <button
+                className="btn btn-black detail-add-btn"
+                onClick={() => addToCart(product.id, 1)}
+              >
+                Kosárba helyezés
+              </button>
+            ) : (
+              <button className="btn btn-disabled detail-add-btn" disabled>
+                Kosárba
+              </button>
+            )}
 
             <ul className="detail-benefits">
               <li>📦 <strong>Prémium minőség</strong> – kiváló alapanyagokból készült</li>

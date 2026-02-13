@@ -137,12 +137,6 @@ export default function ProductsPage() {
             <ProductCard
               key={p.id}
               product={p}
-              categoryName={
-                (categories.find((c) => c.id === p.category_id) ||
-                  products
-                    .map((x) => ({ id: x.category_id, name: x.category }))
-                    .find((c) => c.id === p.category_id))?.name
-              }
             />
           ))}
         </div>

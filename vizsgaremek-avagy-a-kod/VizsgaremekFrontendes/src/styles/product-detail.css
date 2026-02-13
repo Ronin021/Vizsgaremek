@@ -1,0 +1,163 @@
+/* ===== Product Detail Page ===== */
+
+.page-product-detail {
+  padding-block: 26px 60px;
+}
+
+.product-detail-layout {
+  display: grid;
+  grid-template-columns: 480px 1fr;
+  gap: 60px;
+  margin-top: 20px;
+  align-items: flex-start;
+}
+
+.back-link {
+  grid-column: 1 / -1;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.back-link:hover {
+  color: #111827;
+}
+
+/* Product Image */
+
+.product-detail-image {
+  max-width: 380px;
+}
+
+.product-detail-image img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 18px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+
+.product-detail-image-placeholder {
+  padding-bottom: 100%;
+  border-radius: 16px;
+  background: #d1d5db;
+  background-image: linear-gradient(135deg, #d1d5db, #f9fafb);
+}
+
+/* Product Main Info */
+
+.product-detail-main {
+  align-self: center;
+}
+
+.product-detail-main h1 {
+  margin: 0 0 8px;
+  font-size: 1.7rem;
+}
+
+.product-detail-price {
+  margin: 0 0 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ef4444;
+}
+
+.product-detail-description {
+  margin: 0 0 14px;
+  color: #4b5563;
+  font-size: 0.9rem;
+}
+
+/* Detail Category */
+
+.detail-category {
+  display: inline-block;
+  font-size: 12px;
+  background: #eef1ff;
+  color: #3755e0;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.detail-title {
+  font-size: 28px;
+  margin: 14px 0 8px;
+  font-weight: 700;
+}
+
+.detail-price {
+  font-size: 20px;
+  font-weight: 600;
+  color: #e63946;
+  margin-bottom: 12px;
+}
+
+/* Detail Stock */
+
+.detail-stock {
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  margin-left: 10px;
+}
+
+.detail-stock.in-stock {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.detail-stock.out-of-stock {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.detail-description {
+  font-size: 15px;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  max-width: 450px;
+}
+
+/* Add to Cart Button */
+
+.detail-add-btn {
+  margin-bottom: 25px;
+  padding: 12px 22px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* Benefits */
+
+.detail-benefits {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.detail-benefits li {
+  font-size: 15px;
+  margin-bottom: 12px;
+  display: flex;
+  gap: 8px;
+  color: #444;
+}
+
+.detail-benefits li strong {
+  color: #000;
+}
+
+.product-benefits {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 0;
+  font-size: 0.88rem;
+  color: #4b5563;
+}
+
+.product-benefits li {
+  margin-bottom: 4px;
+}

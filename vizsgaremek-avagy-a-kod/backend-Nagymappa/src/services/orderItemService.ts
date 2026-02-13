@@ -25,7 +25,7 @@ export const getOrderItemsByOrderId = async (orderId: number): Promise<any[]> =>
     `SELECT oi.id, oi.order_id, oi.product_id, oi.quantity,
             p.id AS p_id, p.name AS p_name, p.price AS p_price,
             p.description AS p_description, p.stock AS p_stock,
-            p.category_id AS p_category_id
+            p.category_id AS p_category_id, p.image AS p_image
      FROM order_items oi
      LEFT JOIN products p ON oi.product_id = p.id
      WHERE oi.order_id = ?`,
@@ -45,6 +45,7 @@ export const getOrderItemsByOrderId = async (orderId: number): Promise<any[]> =>
       description: r.p_description,
       stock: r.p_stock,
       category_id: r.p_category_id,
+      image: r.p_image,
     }
   }));
 };

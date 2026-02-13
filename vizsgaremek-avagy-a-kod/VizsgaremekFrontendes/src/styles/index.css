@@ -1,0 +1,22 @@
+/* ===== Main Stylesheet Entry Point ===== */
+/* Interior Shop - Styles organized by pages and components */
+
+/* Base styles (reset, layout, buttons, utilities) */
+@import './base.css';
+
+/* Shared components */
+@import './header.css';
+@import './footer.css';
+@import './product-card.css';
+
+/* Page-specific styles */
+@import './home.css';
+@import './products.css';
+@import './product-detail.css';
+@import './auth.css';
+@import './cart.css';
+@import './checkout.css';
+@import './admin.css';
+
+/* Responsive breakpoints */
+@import './responsive.css';

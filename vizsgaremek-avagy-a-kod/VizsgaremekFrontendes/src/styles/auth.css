@@ -1,0 +1,80 @@
+/* ===== Auth Pages (Login, Register) ===== */
+
+.page-auth {
+  padding-block: 40px 80px;
+}
+
+.auth-container {
+  display: flex;
+  justify-content: center;
+}
+
+.auth-card {
+  width: 380px;
+  max-width: 100%;
+  background: #ffffff;
+  padding: 28px 26px 26px;
+  border-radius: 20px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.1);
+}
+
+.auth-card h1 {
+  margin-top: 0;
+  margin-bottom: 6px;
+  font-size: 1.4rem;
+}
+
+.auth-subtitle {
+  margin: 0 0 18px;
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+/* Auth Form */
+
+.auth-form label {
+  display: block;
+  font-size: 0.85rem;
+  margin-bottom: 12px;
+}
+
+.auth-form label input {
+  margin-top: 5px;
+}
+
+.auth-form input {
+  width: 100%;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  padding-inline: 10px;
+  outline: none;
+  font-size: 0.9rem;
+  background: #f9fafb;
+}
+
+.auth-form input:focus {
+  border-color: #ff8a00;
+  background: #ffffff;
+}
+
+/* Test Users Info */
+
+.auth-test-users {
+  margin-top: 18px;
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.auth-test-users p {
+  margin: 2px 0;
+}
+
+/* Terms */
+
+.auth-terms {
+  margin-top: 14px;
+  font-size: 0.78rem;
+  color: #9ca3af;
+}

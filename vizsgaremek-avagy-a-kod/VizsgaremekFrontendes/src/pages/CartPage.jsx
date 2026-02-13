@@ -63,12 +63,14 @@ if (isEmpty) {
 
             return (
               <article key={key} className="cart-item">
-                <div className="cart-item-image">
-                  <img src="/images/kosar.png" />
-                </div>
+                <Link to={`/products/${product.id}`} className="cart-item-image">
+                  <img src={product.image || "/images/kosar.png"} alt={product.name} />
+                </Link>
 
                 <div className="cart-item-main">
-                  <h2>{product.name}</h2>
+                  <Link to={`/products/${product.id}`} className="cart-item-name-link">
+                    <h2>{product.name}</h2>
+                  </Link>
                   <p>{price.toLocaleString("hu-HU")} Ft</p>
                 </div>
 

@@ -7,7 +7,7 @@ import orderRoutes from './routes/orders';
 import orderItemRoutes from './routes/orderItems';
 import authRoutes from './routes/auth';
 import categoryRoutes from './routes/categories';
-import { authenticate } from './middleware/auth';
+import userRoutes from './routes/users';
 
 const app = express();
 
@@ -20,6 +20,7 @@ app.use('/api/products', productRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/orderItems', orderItemRoutes);
+app.use('/api/users', userRoutes);
 // Auth routes
 app.use('/api/auth', authRoutes);
 

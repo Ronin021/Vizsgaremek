@@ -13,21 +13,26 @@ export default function ProductCard({ product, categoryName }) {
         </div>
 
         <div className="product-meta">
-          <span className="product-category">{categoryName ?? product.category ?? ''}</span>
+          <span className="product-category">{categoryName ?? product.category_name ?? ''}</span>
           <h3 className="product-title">{product.name}</h3>
           <p className="product-price">{product.price.toLocaleString("hu-HU")} Ft</p>
         </div>
       </Link>
 
       <div className="product-actions">
-        {product.stock === 0 ? (
-          <span className="stock-badge">Nincs raktáron</span>
-        ) : (
+        <span className={`stock-badge ${product.stock > 0 ? "stock-in" : "stock-out"}`}>
+          {product.stock > 0 ? "Raktáron" : "Nincs raktáron"}
+        </span>
+        {product.stock > 0 ? (
           <button
             type="button"
             className="btn btn-black"
             onClick={() => addToCart(product.id, 1)}
           >
+            Kosárba
+          </button>
+        ) : (
+          <button type="button" className="btn btn-disabled" disabled>
             Kosárba
           </button>
         )}

@@ -54,7 +54,7 @@ export default function RegisterPage() {
             {error && <p className="error-message">{error}</p>}
             
             <label>
-              Teljes név
+              Keresztnév
               <input 
                 type="text" 
                 required 

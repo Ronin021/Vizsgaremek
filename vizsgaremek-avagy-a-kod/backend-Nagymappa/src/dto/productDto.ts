@@ -5,4 +5,5 @@ export interface ProductDto {
   price: number;
   description: string;
   stock: number;
+  image?: string;
 }

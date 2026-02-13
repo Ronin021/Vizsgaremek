@@ -25,8 +25,10 @@ export default function CheckoutPage() {
   if (!isLoggedIn) {
     return (
       <div className="page page-checkout">
-        <div className="container">
-          <p>Bejelentkezés szükséges a vásárláshoz.</p>
+        <div className="container cart-empty">
+          <img src="/images/user.png" alt="Bejelentkezés" className="cart-empty-icon" />
+          <h1>Bejelentkezés szükséges</h1>
+          <p>A vásárláshoz kérlek, jelentkezz be fiókodba.</p>
           <Link to="/login" className="btn btn-black">
             Bejelentkezés
           </Link>
@@ -52,6 +54,13 @@ export default function CheckoutPage() {
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
+
+    // Validáció - kötelező mezők
+    if (!firstName.trim() || !lastName.trim() || !email.trim() || !phone.trim() || !address.trim() || !city.trim() || !zipCode.trim()) {
+      setError("Kérlek, töltsd ki az összes mezőt!");
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -162,7 +171,7 @@ export default function CheckoutPage() {
               <input
                 type="text"
                 value={zipCode}
-                onChange={(e) => setZipCode(e.target.value)}
+                onChange={(e) => setZipCode(e.target.value.replace(/[^0-9]/g, ""))}
                 placeholder="Irányítószám"
                 required
               />
@@ -172,7 +181,7 @@ export default function CheckoutPage() {
               <input
                 type="tel"
                 value={phone}
-                onChange={(e) => setPhone(e.target.value)}
+                onChange={(e) => setPhone(e.target.value.replace(/[^0-9+]/g, ""))}
                 placeholder="+36201234567"
                 required
                 style={{ gridColumn: "1 / 3" }}
