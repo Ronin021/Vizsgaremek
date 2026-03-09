@@ -55,3 +55,50 @@
 .filter-select select:focus {
   border-color: #ff8a00;
 }
+
+/* Pagination */
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 32px;
+  padding-bottom: 8px;
+}
+
+.pagination-arrow {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #111827;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.pagination-arrow:hover:not(:disabled) {
+  background: #111827;
+  color: #ffffff;
+  border-color: #111827;
+}
+
+.pagination-arrow:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.pagination-info {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #374151;
+  min-width: 60px;
+  text-align: center;
+}

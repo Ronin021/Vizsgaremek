@@ -3,6 +3,8 @@ import ProductCard from "../components/ProductCard";
 import { getProducts } from "../api/productApi.js";
 import { request } from "../api/client.js";
 
+const PRODUCTS_PER_PAGE = 9;
+
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -11,6 +13,7 @@ export default function ProductsPage() {
   const [sort, setSort] = useState("new");
   const [category, setCategory] = useState("all");
   const [categories, setCategories] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
   const defaultCategoryNames = {
     1: "Nappali",
     2: "Hálószoba",
@@ -48,6 +51,11 @@ export default function ProductsPage() {
     fetchCategories();
   }, []);
 
+  // Reset page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [query, sort, category]);
+
   if (loading) {
     return (
       <div className="page page-products">
@@ -78,6 +86,14 @@ export default function ProductsPage() {
       if (sort === "price-desc") return b.price - a.price;
       return b.id - a.id;
     });
+
+  // Pagination
+  const totalPages = Math.ceil(filtered.length / PRODUCTS_PER_PAGE);
+  const safePage = Math.min(currentPage, totalPages || 1);
+  const paginatedProducts = filtered.slice(
+    (safePage - 1) * PRODUCTS_PER_PAGE,
+    safePage * PRODUCTS_PER_PAGE
+  );
 
   return (
     <div className="page page-products">
@@ -133,13 +149,38 @@ export default function ProductsPage() {
         </div>
 
         <div className="product-grid">
-          {filtered.map((p) => (
+          {paginatedProducts.map((p) => (
             <ProductCard
               key={p.id}
               product={p}
             />
           ))}
         </div>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="pagination">
+            <button
+              className="pagination-arrow"
+              disabled={safePage <= 1}
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              aria-label="Előző oldal"
+            >
+              ‹
+            </button>
+            <span className="pagination-info">
+              {safePage} / {totalPages}
+            </span>
+            <button
+              className="pagination-arrow"
+              disabled={safePage >= totalPages}
+              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+              aria-label="Következő oldal"
+            >
+              ›
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

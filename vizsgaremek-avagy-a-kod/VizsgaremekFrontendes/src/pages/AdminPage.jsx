@@ -30,9 +30,10 @@ export default function AdminPage() {
     price: 0,
     category_id: 1,
     description: "",
-    image: "",
+    images: [],
     stock: 50
   });
+  const [imageUrlInput, setImageUrlInput] = useState("");
 
   // Check admin access
   useEffect(() => {
@@ -69,6 +70,18 @@ export default function AdminPage() {
   const totalOrders = orders.length;
   const totalRevenue = orders.reduce((sum, o) => sum + (o.total_price || 0), 0);
 
+  // Helper: parse image field from product (can be JSON array or single URL string)
+  const parseImages = (imageField) => {
+    if (!imageField) return [];
+    try {
+      const parsed = JSON.parse(imageField);
+      if (Array.isArray(parsed)) return parsed;
+      return [imageField];
+    } catch {
+      return imageField ? [imageField] : [];
+    }
+  };
+
   // Form handlers
   const handleOpenCreate = () => {
     setEditingProduct(null);
@@ -77,9 +90,10 @@ export default function AdminPage() {
       price: 0,
       category_id: categories[0]?.id || 1,
       description: "",
-      image: "",
+      images: [],
       stock: 50
     });
+    setImageUrlInput("");
     setShowForm(true);
   };
 
@@ -90,9 +104,10 @@ export default function AdminPage() {
       price: product.price,
       category_id: product.category_id,
       description: product.description || "",
-      image: product.image || "",
+      images: parseImages(product.image),
       stock: product.stock
     });
+    setImageUrlInput("");
     setShowForm(true);
   };
 
@@ -105,7 +120,6 @@ export default function AdminPage() {
     const { name, value, type, checked } = e.target;
     
     if (name === "price") {
-      // Only allow numbers for price
       const numericValue = value.replace(/[^0-9]/g, "");
       setFormData((prev) => ({ ...prev, [name]: Number(numericValue) || 0 }));
     } else if (name === "stock") {
@@ -117,13 +131,51 @@ export default function AdminPage() {
     }
   };
 
+  // Image URL hozzáadása
+  const handleAddImageUrl = () => {
+    const url = imageUrlInput.trim();
+    if (!url) return;
+    setFormData((prev) => ({ ...prev, images: [...prev.images, url] }));
+    setImageUrlInput("");
+  };
+
+  // File feltöltés (base64 data URL)
+  const handleFileUpload = (e) => {
+    const files = Array.from(e.target.files);
+    files.forEach((file) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setFormData((prev) => ({ ...prev, images: [...prev.images, reader.result] }));
+      };
+      reader.readAsDataURL(file);
+    });
+    e.target.value = "";
+  };
+
+  // Kép eltávolítása
+  const handleRemoveImage = (index) => {
+    setFormData((prev) => ({
+      ...prev,
+      images: prev.images.filter((_, i) => i !== index)
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // Készítjük az adatot: image mező JSON tömbként
+      const payload = {
+        name: formData.name,
+        price: formData.price,
+        category_id: formData.category_id,
+        description: formData.description,
+        stock: formData.stock,
+        image: formData.images.length > 0 ? JSON.stringify(formData.images) : ""
+      };
       if (editingProduct) {
-        await updateProduct(editingProduct.id, formData);
+        await updateProduct(editingProduct.id, payload);
       } else {
-        await createProduct(formData);
+        await createProduct(payload);
       }
       // Refresh products
       const updatedProducts = await getProducts();
@@ -300,13 +352,57 @@ export default function AdminPage() {
                   </div>
 
                   <div className="form-group">
-                    <label>Kép URL</label>
-                    <input
-                      type="text"
-                      name="image"
-                      value={formData.image}
-                      onChange={handleFormChange}
-                    />
+                    <label>Képek</label>
+
+                    {/* Képek előnézete */}
+                    {formData.images.length > 0 && (
+                      <div className="image-preview-list">
+                        {formData.images.map((img, idx) => (
+                          <div key={idx} className="image-preview-item">
+                            <img src={img} alt={`Kép ${idx + 1}`} />
+                            <button
+                              type="button"
+                              className="image-remove-btn"
+                              onClick={() => handleRemoveImage(idx)}
+                              title="Kép eltávolítása"
+                            >
+                              ✕
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* URL hozzáadás */}
+                    <div className="image-url-row">
+                      <input
+                        type="text"
+                        placeholder="Kép URL beillesztése..."
+                        value={imageUrlInput}
+                        onChange={(e) => setImageUrlInput(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            e.preventDefault();
+                            handleAddImageUrl();
+                          }
+                        }}
+                      />
+                      <button type="button" className="btn btn-add-url" onClick={handleAddImageUrl}>
+                        + URL
+                      </button>
+                    </div>
+
+                    {/* Fájl feltöltés */}
+                    <label className="file-upload-label">
+                      📁 Kép feltöltése fájlból
+                      <input
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        onChange={handleFileUpload}
+                        className="file-upload-input"
+                      />
+                    </label>
                   </div>
 
                   <div className="form-group form-checkbox">
@@ -334,13 +430,19 @@ export default function AdminPage() {
 
             {/* Product Grid */}
             <div className="admin-product-grid">
-              {products.map((product) => (
+              {products.map((product) => {
+                const imgs = parseImages(product.image);
+                const firstImage = imgs[0] || "";
+                return (
                 <div key={product.id} className="admin-product-card">
                   <div className="admin-product-image">
-                    {product.image ? (
-                      <img src={product.image} alt={product.name} />
+                    {firstImage ? (
+                      <img src={firstImage} alt={product.name} />
                     ) : (
                       <div className="product-image-placeholder" />
+                    )}
+                    {imgs.length > 1 && (
+                      <span className="image-count-badge">{imgs.length} kép</span>
                     )}
                   </div>
                   <div className="admin-product-info">
@@ -372,7 +474,8 @@ export default function AdminPage() {
                     </button>
                   </div>
                 </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         )}

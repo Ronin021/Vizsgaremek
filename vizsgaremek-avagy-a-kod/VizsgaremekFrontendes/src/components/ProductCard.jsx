@@ -2,14 +2,31 @@
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 
+// Helper: parse image field (JSON array or single URL)
+function getFirstImage(imageField) {
+  if (!imageField) return "";
+  try {
+    const parsed = JSON.parse(imageField);
+    if (Array.isArray(parsed) && parsed.length > 0) return parsed[0];
+    return imageField;
+  } catch {
+    return imageField;
+  }
+}
+
 export default function ProductCard({ product, categoryName }) {
   const { addToCart } = useCart();
+  const imageSrc = getFirstImage(product.image);
 
   return (
     <article className="product-card">
       <Link to={`/products/${product.id}`} className="product-link">
         <div className="product-image">
-          <img src={product.image} alt={product.name} />
+          {imageSrc ? (
+            <img src={imageSrc} alt={product.name} />
+          ) : (
+            <div className="product-image-placeholder" />
+          )}
         </div>
 
         <div className="product-meta">

@@ -3,12 +3,25 @@ import { useState, useEffect } from "react";
 import { getProductById } from "../api/productApi.js";
 import { useCart } from "../context/CartContext";
 
+// Helper: parse image field (JSON array or single URL)
+function parseImages(imageField) {
+  if (!imageField) return [];
+  try {
+    const parsed = JSON.parse(imageField);
+    if (Array.isArray(parsed)) return parsed;
+    return [imageField];
+  } catch {
+    return imageField ? [imageField] : [];
+  }
+}
+
 export default function ProductDetailsPage() {
   const { id } = useParams();
   const { addToCart } = useCart();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
     async function fetchProduct() {
@@ -57,7 +70,58 @@ export default function ProductDetailsPage() {
 
         <div className="product-detail-layout">
           <div className="product-detail-image">
-            <img src={product.image} alt={product.name} />
+            {(() => {
+              const images = parseImages(product.image);
+              if (images.length === 0) {
+                return <div className="product-detail-image-placeholder" />;
+              }
+              return (
+                <div className="image-carousel">
+                  {images.length > 1 && (
+                    <button
+                      className="carousel-arrow carousel-arrow-left"
+                      onClick={() =>
+                        setCurrentImageIndex((prev) =>
+                          prev === 0 ? images.length - 1 : prev - 1
+                        )
+                      }
+                      aria-label="Előző kép"
+                    >
+                      ‹
+                    </button>
+                  )}
+                  <img
+                    src={images[currentImageIndex] || images[0]}
+                    alt={`${product.name} - ${currentImageIndex + 1}`}
+                  />
+                  {images.length > 1 && (
+                    <button
+                      className="carousel-arrow carousel-arrow-right"
+                      onClick={() =>
+                        setCurrentImageIndex((prev) =>
+                          prev === images.length - 1 ? 0 : prev + 1
+                        )
+                      }
+                      aria-label="Következő kép"
+                    >
+                      ›
+                    </button>
+                  )}
+                  {images.length > 1 && (
+                    <div className="carousel-dots">
+                      {images.map((_, idx) => (
+                        <button
+                          key={idx}
+                          className={`carousel-dot ${idx === currentImageIndex ? "active" : ""}`}
+                          onClick={() => setCurrentImageIndex(idx)}
+                          aria-label={`Kép ${idx + 1}`}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
           </div>
 
           <div className="product-detail-main">

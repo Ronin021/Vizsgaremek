@@ -147,7 +147,7 @@ CREATE TABLE `products` (
   `price` int(11) NOT NULL,
   `description` text DEFAULT NULL,
   `stock` int(11) DEFAULT 50,
-  `image` varchar(500) DEFAULT NULL
+  `image` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 --
@@ -155,16 +155,16 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `category_id`, `price`, `description`, `stock`, `image`) VALUES
-(1, 'Modern Kanapé', 1, 289900, 'Prémium minőségű, modern stílusú ülőgarnitúra', 50, 'https://img5.su-cdn.com/cdn-cgi/image/width=750,height=750/mall/file/2021/08/12/e1262e7d0fd94f1d8148fccd5717acbb.jpg'),
-(2, 'Skandináv Fotel', 1, 159900, 'Kényelmes, letisztult fotel', 20, 'https://cdn.sicaan.com/products/STW-000287/STW-000287-main_image_web-fa1b70e3d18d4b36ad1150d155bc6974.jpg'),
-(3, 'Tölgyfa Étkezőasztal', 3, 329900, 'Tömör fa étkezőasztal — 6 személyes', 9, 'https://res.cloudinary.com/castlery/image/private/w_1995,f_auto,q_auto,c_fit/v1705909062/crusader/variants/41960029/Vincent-Dining-Table-With-6-Dining-Chair-Walnut-Square-Set_2-1705909059.jpg'),
-(4, 'Étkezőszék szett (4db)', 3, 119900, 'Modern étkezőszékek 4 darabos kiszerelésben', 17, 'https://www.laura-james.co.uk/cdn/shop/files/grey-chairs-willow-black_1.jpg?v=1753183886&width=1946'),
-(5, 'Minimal Éjjeliszekrény', 2, 69900, 'Egyszerű, skandináv éjjeliszekrény', 23, 'https://cdn11.bigcommerce.com/s-42eba/images/stencil/1280x1280/products/14773/144685/LionelMidCenturyModernSolidWoodNightstand2-Drawer-1__38527.1730983772.jpg?c=2'),
-(6, 'King Size Ágykeret', 2, 359900, 'Elegáns ágykeret 180x200 cm', 6, 'https://i5.walmartimages.com/seo/Allewie-King-Size-Bed-Frame-with-4-Storage-Drawers-and-Button-Tufted-Wingback-Headboard-Dark-Grey_a1a84cb1-c5a5-4c89-838e-1986076671fb.862a8ea902c1a0d44e66089abb4ef462.jpeg?odnHeight=768&odnWidth=768&odnBg=FFFFFF'),
-(7, 'Falióra Loft Style', 4, 24900, 'Indusztriális stílusú fém falióra', 50, 'https://m.media-amazon.com/images/I/61MV6vEET9L._AC_UF894,1000_QL80_.jpg'),
-(8, 'LED állólámpa', 5, 79900, 'Modern design állólámpa – melegfényű', 32, 'https://media.valuelights.co.uk/image/upload/t_vlpdp2/v1234567890/26271_DLIFE'),
-(9, 'Szürke szőnyeg 200x300', 1, 89900, 'Nagyméretű nappali szőnyeg', 15, 'https://m.media-amazon.com/images/I/81sEoi+iytL._AC_UF894,1000_QL80_.jpg'),
-(10, 'Dekorációs növény', 4, 19900, 'Műnövény kerámia kaspóban', 30, 'https://minimum-design.com/cdn/shop/collections/planters-minimum-design.jpg?v=1697535684&width=2048');
+(1, 'Modern Kanapé', 1, 289900, 'Prémium minőségű, modern stílusú ülőgarnitúra', 50, '[\"https://img5.su-cdn.com/cdn-cgi/image/width=750,height=750/mall/file/2021/08/12/e1262e7d0fd94f1d8148fccd5717acbb.jpg\"]'),
+(2, 'Skandináv Fotel', 1, 159900, 'Kényelmes, letisztult fotel', 20, '[\"https://cdn.sicaan.com/products/STW-000287/STW-000287-main_image_web-fa1b70e3d18d4b36ad1150d155bc6974.jpg\"]'),
+(3, 'Tölgyfa Étkezőasztal', 3, 329900, 'Tömör fa étkezőasztal — 6 személyes', 9, '[\"https://res.cloudinary.com/castlery/image/private/w_1995,f_auto,q_auto,c_fit/v1705909062/crusader/variants/41960029/Vincent-Dining-Table-With-6-Dining-Chair-Walnut-Square-Set_2-1705909059.jpg\"]'),
+(4, 'Étkezőszék szett (4db)', 3, 119900, 'Modern étkezőszékek 4 darabos kiszerelésben', 17, '[\"https://www.laura-james.co.uk/cdn/shop/files/grey-chairs-willow-black_1.jpg?v=1753183886&width=1946\"]'),
+(5, 'Minimal Éjjeliszekrény', 2, 69900, 'Egyszerű, skandináv éjjeliszekrény', 23, '[\"https://cdn11.bigcommerce.com/s-42eba/images/stencil/1280x1280/products/14773/144685/LionelMidCenturyModernSolidWoodNightstand2-Drawer-1__38527.1730983772.jpg?c=2\"]'),
+(6, 'King Size Ágykeret', 2, 359900, 'Elegáns ágykeret 180x200 cm', 6, '[\"https://i5.walmartimages.com/seo/Allewie-King-Size-Bed-Frame-with-4-Storage-Drawers-and-Button-Tufted-Wingback-Headboard-Dark-Grey_a1a84cb1-c5a5-4c89-838e-1986076671fb.862a8ea902c1a0d44e66089abb4ef462.jpeg?odnHeight=768&odnWidth=768&odnBg=FFFFFF\"]'),
+(7, 'Falióra Loft Style', 4, 24900, 'Indusztriális stílusú fém falióra', 50, '[\"https://m.media-amazon.com/images/I/61MV6vEET9L._AC_UF894,1000_QL80_.jpg\"]'),
+(8, 'LED állólámpa', 5, 79900, 'Modern design állólámpa – melegfényű', 32, '[\"https://media.valuelights.co.uk/image/upload/t_vlpdp2/v1234567890/26271_DLIFE\"]'),
+(9, 'Szürke szőnyeg 200x300', 1, 89900, 'Nagyméretű nappali szőnyeg', 15, '[\"https://m.media-amazon.com/images/I/81sEoi+iytL._AC_UF894,1000_QL80_.jpg\"]'),
+(10, 'Dekorációs növény', 4, 19900, 'Műnövény kerámia kaspóban', 30, '[\"https://minimum-design.com/cdn/shop/collections/planters-minimum-design.jpg?v=1697535684&width=2048\"]');
 
 -- --------------------------------------------------------
 
