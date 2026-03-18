@@ -2,6 +2,19 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 
+function getFirstImage(imageField) {
+  if (!imageField) return "";
+  try {
+    const parsed = JSON.parse(imageField);
+    if (Array.isArray(parsed) && parsed.length > 0) {
+      return parsed[0] || "";
+    }
+    return imageField;
+  } catch {
+    return imageField;
+  }
+}
+
 export default function CartPage() {
   const {
     items,
@@ -58,13 +71,20 @@ if (isEmpty) {
             const product = item.product ?? item; // ha nincs product mező, magát az item-et használjuk
             const quantity = item.quantity ?? 1;
             const price = product.price ?? item.price ?? 0;
+            const imageSrc = getFirstImage(product.image) || "/images/kosar.png";
 
             const key = item.id ?? item.itemId ?? product.id;
 
             return (
               <article key={key} className="cart-item">
                 <Link to={`/products/${product.id}`} className="cart-item-image">
-                  <img src={product.image || "/images/kosar.png"} alt={product.name} />
+                  <img
+                    src={imageSrc}
+                    alt={product.name}
+                    onError={(e) => {
+                      e.currentTarget.src = "/images/kosar.png";
+                    }}
+                  />
                 </Link>
 
                 <div className="cart-item-main">

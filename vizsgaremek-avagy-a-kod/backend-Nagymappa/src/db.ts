@@ -1,5 +1,6 @@
 import * as mysql from 'mysql2/promise';
 
+// A connection pool újrafelhasználja a kapcsolatokat, így stabilabb és gyorsabb a DB-hozzáférés.
 const pool = mysql.createPool({
   host: process.env.DB_HOST || 'localhost',
   user: process.env.DB_USER || 'root',

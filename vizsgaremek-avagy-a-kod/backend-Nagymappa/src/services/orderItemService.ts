@@ -21,6 +21,7 @@ export const getOrderItemById = async (id: number): Promise<OrderItem | null> =>
 // Rendeléshez tartozó tételek lekérése (JOIN products — frontend i.product.price-t vár)
 export const getOrderItemsByOrderId = async (orderId: number): Promise<any[]> => {
   const connection = await pool.getConnection();
+  // A JOIN egy lekérdezésben hozza a kosártételt és a hozzá tartozó termékmezőket.
   const [rows] = await connection.query(
     `SELECT oi.id, oi.order_id, oi.product_id, oi.quantity,
             p.id AS p_id, p.name AS p_name, p.price AS p_price,
@@ -33,6 +34,7 @@ export const getOrderItemsByOrderId = async (orderId: number): Promise<any[]> =>
   );
   connection.release();
 
+  // A frontend által elvárt beágyazott `product` struktúrát itt állítjuk elő.
   return (rows as any[]).map(r => ({
     id: r.id,
     order_id: r.order_id,

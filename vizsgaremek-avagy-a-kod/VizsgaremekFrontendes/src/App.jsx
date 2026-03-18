@@ -12,6 +12,12 @@ import CheckoutPage from "./pages/CheckoutPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import AdminPage from "./pages/AdminPage";
+import TermsPage from "./pages/TermsPage";
+import PrivacyPage from "./pages/PrivacyPage";
+import ShippingPage from "./pages/ShippingPage";
+import ComplaintPage from "./pages/ComplaintPage";
+import AboutPage from "./pages/AboutPage";
+import ContactPage from "./pages/ContactPage";
 
 import { CartProvider } from "./context/CartContext";
 import { AuthProvider } from "./context/AuthContext.jsx";
@@ -35,6 +41,13 @@ function App() {
               <Route path="/register" element={<RegisterPage />} />
 
               <Route path="/admin" element={<AdminPage />} />
+
+              <Route path="/aszf" element={<TermsPage />} />
+              <Route path="/adatvedelem" element={<PrivacyPage />} />
+              <Route path="/szallitas" element={<ShippingPage />} />
+              <Route path="/reklamacio" element={<ComplaintPage />} />
+              <Route path="/rolunk" element={<AboutPage />} />
+              <Route path="/kapcsolat" element={<ContactPage />} />
 
             </Routes>
           </main>

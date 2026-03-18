@@ -4,6 +4,7 @@ import { OrderDto } from '../dto/orderDto';
 
 // Összes rendelés lekérése
 export const getAllOrders = async (): Promise<Order[]> => {
+  // Minden művelet külön connectiont kér, majd a végén visszaadja a poolnak.
   const connection = await pool.getConnection();
   const [rows] = await connection.query('SELECT * FROM orders');
   connection.release();
@@ -30,6 +31,7 @@ export const getOrdersByUserId = async (userId: number): Promise<Order[]> => {
 // Új rendelés hozzáadása
 export const createOrder = async (order: OrderDto): Promise<number> => {
   const connection = await pool.getConnection();
+  // A checkout adatai is ebbe a táblába kerülnek, ezért minden rendelési mezőt itt mentünk.
   const [result] = await connection.query(
     'INSERT INTO orders (user_id, total_price, date, status, payment_method, shipping_address, phone) VALUES (?, ?, ?, ?, ?, ?, ?)',
     [order.user_id, order.total_price, order.date, order.status, order.payment_method, order.shipping_address, order.phone]
@@ -41,6 +43,7 @@ export const createOrder = async (order: OrderDto): Promise<number> => {
 // Rendelés frissítése
 export const updateOrder = async (id: number, order: OrderDto): Promise<boolean> => {
   const connection = await pool.getConnection();
+  // Az affectedRows alapján jelezzük vissza, hogy ténylegesen létezett-e frissíthető rekord.
   const [result] = await connection.query(
     'UPDATE orders SET user_id = ?, total_price = ?, date = ?, status = ?, payment_method = ?, shipping_address = ?, phone = ? WHERE id = ?',
     [order.user_id, order.total_price, order.date, order.status, order.payment_method, order.shipping_address, order.phone, id]

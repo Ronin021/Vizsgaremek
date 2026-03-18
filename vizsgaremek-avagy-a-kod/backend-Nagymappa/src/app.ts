@@ -12,10 +12,13 @@ import userRoutes from './routes/users';
 const app = express();
 
 // Middleware-ek
+// CORS engedélyezése, hogy a frontend böngészőből elérhesse az API-t.
 app.use(cors());
+// JSON body parsing nagyobb payload támogatással (pl. admin oldali képadatok).
 app.use(express.json({ limit: '50mb' }));
 
 // Routes-ok
+// Az API erőforrások prefixek alá szervezve maradnak, így a route-struktúra konzisztens.
 app.use('/api/products', productRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/orders', orderRoutes);

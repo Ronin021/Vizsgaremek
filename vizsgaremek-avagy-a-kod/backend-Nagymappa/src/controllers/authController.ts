@@ -11,18 +11,20 @@ export const register = async (req: Request, res: Response): Promise<void> => {
     const data: LoginRegisterDto = req.body;
     const { email, password, first_name, last_name } = data;
 
+    // Regisztrációhoz minimum e-mail és jelszó szükséges, a többi mező opcionális.
     if (!email || !password) {
       res.status(400).json({ error: 'Email és jelszó szükséges' });
       return;
     }
 
-    // check existing
+    // Ellenőrizzük, hogy az e-mail cím egyedi-e, így elkerülhető a duplikált fiók.
     const [rows]: any = await pool.query('SELECT id FROM users WHERE email = ?', [email]);
     if (rows.length > 0) {
       res.status(409).json({ error: 'Már létezik felhasználó ezzel az e-mail címmel' });
       return;
     }
 
+    // A jelszót csak hash-elve mentjük, így nem kerül plaintext formában az adatbázisba.
     const hash = hashPassword(password);
     const [result]: any = await pool.query(
       'INSERT INTO users (first_name, last_name, email, password, is_admin) VALUES (?, ?, ?, ?, ?)',
@@ -42,6 +44,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
 export const login = async (req: Request, res: Response): Promise<void> => {
   try {
     const { email, password } = req.body as LoginRegisterDto;
+    // Bejelentkezéskor is kötelező mindkét hitelesítő adat.
     if (!email || !password) {
       res.status(400).json({ error: 'Email és jelszó szükséges' });
       return;
@@ -54,12 +57,14 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     }
 
     const user = rows[0];
+    // A jelszó hash összevetése dönti el, hogy a hitelesítés sikeres-e.
   const valid = comparePassword(password, user.password);
     if (!valid) {
       res.status(401).json({ error: 'Helytelen hitelesítő adatok' });
       return;
     }
 
+    // Sikeres login után 7 napos JWT készül, amit a frontend védett kéréseknél használ.
     const payload = { id: user.id, email: user.email, is_admin: !!user.is_admin };
     const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '7d' });
 

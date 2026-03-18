@@ -22,10 +22,10 @@ export default function Footer() {
               <Link to="/products">Termékek</Link>
             </li>
             <li>
-              <a href="#!">Rólunk</a>
+              <Link to="/rolunk">Rólunk</Link>
             </li>
             <li>
-              <a href="#!">Kapcsolat</a>
+              <Link to="/kapcsolat">Kapcsolat</Link>
             </li>
           </ul>
         </div>
@@ -34,16 +34,16 @@ export default function Footer() {
           <h4>Ügyfélszolgálat</h4>
           <ul>
             <li>
-              <a href="#!">ÁSZF</a>
+              <Link to="/aszf">ÁSZF</Link>
             </li>
             <li>
-              <a href="#!">Adatvédelem</a>
+              <Link to="/adatvedelem">Adatvédelem</Link>
             </li>
             <li>
-              <a href="#!">Szállítás</a>
+              <Link to="/szallitas">Szállítás</Link>
             </li>
             <li>
-              <a href="#!">Reklamáció</a>
+              <Link to="/reklamacio">Reklamáció</Link>
             </li>
           </ul>
         </div>

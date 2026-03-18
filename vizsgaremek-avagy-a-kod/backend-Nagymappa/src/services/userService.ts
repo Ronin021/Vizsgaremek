@@ -22,6 +22,7 @@ export const getUserById = async (id: number): Promise<User | null> => {
 // Felhasználó lekérése email alapján
 export const getUserByEmail = async (email: string): Promise<User | null> => {
   const connection = await pool.getConnection();
+  // Bejelentkezésnél ez a függvény adja vissza az e-mailhez tartozó felhasználót.
   const [rows] = await connection.query('SELECT * FROM users WHERE email = ?', [email]);
   connection.release();
   const users = rows as User[];
@@ -61,6 +62,7 @@ export const deleteUser = async (id: number): Promise<boolean> => {
 // Beállítja egy felhasználó admin státuszát
 export const setAdmin = async (id: number, isAdmin: boolean): Promise<boolean> => {
   const connection = await pool.getConnection();
+  // A boolean értéket 0/1 formára alakítjuk, mert a DB mező numerikus jellegű.
   const [result] = await connection.query('UPDATE users SET is_admin = ? WHERE id = ?', [isAdmin ? 1 : 0, id]);
   connection.release();
   return (result as any).affectedRows > 0;

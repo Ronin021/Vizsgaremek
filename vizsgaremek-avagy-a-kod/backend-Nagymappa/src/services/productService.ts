@@ -5,6 +5,7 @@ import { ProductDto } from '../dto/productDto';
 // Összes termék lekérése
 export const getAllProducts = async (): Promise<Product[]> => {
   const connection = await pool.getConnection();
+  // A kategórianév JOIN-nal érkezik, így a frontend külön lekérdezés nélkül tudja megjeleníteni.
   const [rows] = await connection.query(
     `SELECT p.*, c.name AS category_name 
      FROM products p 
@@ -32,6 +33,7 @@ export const getProductById = async (id: number): Promise<Product | null> => {
 // Új termék hozzáadása
 export const createProduct = async (product: ProductDto): Promise<number> => {
   const connection = await pool.getConnection();
+  // A képmezőt null-ra engedjük, hogy kép nélküli termék is menthető legyen.
   const [result] = await connection.query(
     'INSERT INTO products (name, category_id, price, description, stock, image) VALUES (?, ?, ?, ?, ?, ?)',
     [product.name, product.category_id, product.price, product.description, product.stock, product.image || null]

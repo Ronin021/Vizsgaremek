@@ -41,6 +41,7 @@ export const getOrdersByUser = async (req: Request, res: Response) => {
 // Új rendelés hozzáadása (kosár létrehozás — vendég is, üres body-val)
 export const createOrder = async (req: Request, res: Response) => {
   try {
+    // A fallback értékek biztosítják, hogy üres body-val is létrejöhessen egy kezdeti kosár rendelés.
     const orderData: OrderDto = {
       user_id: req.body?.user_id || null,
       total_price: req.body?.total_price || 0,
@@ -61,6 +62,7 @@ export const createOrder = async (req: Request, res: Response) => {
 export const updateOrder = async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
+    // A checkout során a frontend teljes rendelésobjektummal frissíti a már létrejött kosarat.
     const orderData: OrderDto = req.body;
     const success = await orderService.updateOrder(id, orderData);
     if (success) {
