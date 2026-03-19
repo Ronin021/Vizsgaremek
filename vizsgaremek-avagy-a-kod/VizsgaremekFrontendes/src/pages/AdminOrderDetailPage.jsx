@@ -207,7 +207,7 @@ export default function AdminOrderDetailPage() {
                             src={mainImage} 
                             alt={item.product?.name}
                             onError={(e) => {
-                              e.target.src = "https://via.placeholder.com/200?text=No+Image";
+                              e.target.style.display = "none";
                             }}
                           />
                         </div>

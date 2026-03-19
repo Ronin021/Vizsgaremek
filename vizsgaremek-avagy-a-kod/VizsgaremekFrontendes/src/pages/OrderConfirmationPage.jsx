@@ -153,7 +153,7 @@ export default function OrderConfirmationPage() {
                             src={mainImage}
                             alt={item.product?.name}
                             onError={(e) => {
-                              e.currentTarget.src = "https://via.placeholder.com/200?text=No+Image";
+                              e.target.style.display = "none";
                             }}
                           />
                         </div>
