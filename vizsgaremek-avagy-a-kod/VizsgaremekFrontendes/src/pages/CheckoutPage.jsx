@@ -96,14 +96,14 @@ export default function CheckoutPage() {
 
         // mark order as completed in UI and clear active order id (cart)
         clearCart();
-        navigate("/", { state: { orderComplete: true, orderId: Number(activeOrderId) } });
+        navigate(`/order-success/${Number(activeOrderId)}`);
       } else {
         // fallback: create a fresh order (guest flow)
         const response = await request("/api/orders", {
           method: "POST",
           body: orderData
         });
-        navigate("/", { state: { orderComplete: true, orderId: response.id } });
+        navigate(`/order-success/${response.id}`);
       }
     } catch (err) {
       setError(err.message || "Hiba a megrendelés során");

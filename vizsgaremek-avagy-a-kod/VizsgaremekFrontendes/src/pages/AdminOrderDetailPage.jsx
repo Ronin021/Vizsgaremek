@@ -169,6 +169,13 @@ export default function AdminOrderDetailPage() {
     }
   });
 
+  const itemsSubtotal = consolidatedItems.reduce(
+    (sum, item) => sum + (item.product?.price || 0) * (item.quantity || 0),
+    0
+  );
+  const shipping = itemsSubtotal >= 150000 ? 0 : 5000;
+  const total = itemsSubtotal + shipping;
+
   return (
     <div className="page page-order-detail">
       <div className="container">
@@ -237,15 +244,15 @@ export default function AdminOrderDetailPage() {
             <div className="order-summary-box">
               <div className="summary-row">
                 <span>Részösszeg:</span>
-                <span>{(order.total_price || 0).toLocaleString("hu-HU")} Ft</span>
+                <span>{itemsSubtotal.toLocaleString("hu-HU")} Ft</span>
               </div>
               <div className="summary-row">
                 <span>Szállítás:</span>
-                <span>5000 Ft</span>
+                <span>{shipping === 0 ? "Ingyenes" : `${shipping.toLocaleString("hu-HU")} Ft`}</span>
               </div>
               <div className="summary-row summary-total">
                 <span>Végösszesen:</span>
-                <span>{((order.total_price || 0) + 5000).toLocaleString("hu-HU")} Ft</span>
+                <span>{total.toLocaleString("hu-HU")} Ft</span>
               </div>
             </div>
           </div>

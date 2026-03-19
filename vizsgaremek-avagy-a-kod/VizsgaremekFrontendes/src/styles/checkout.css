@@ -181,3 +181,55 @@
   font-size: 0.8rem;
   color: #9ca3af;
 }
+
+/* ===== Order Success Page ===== */
+
+.page-order-confirmation {
+  padding-block: 30px 60px;
+}
+
+.order-success-banner {
+  background: #ecfdf3;
+  border: 1px solid #86efac;
+  border-radius: 14px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  align-items: start;
+  padding: 16px;
+  margin-bottom: 22px;
+}
+
+.order-success-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: #16a34a;
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.order-success-banner h1 {
+  margin: 0 0 4px;
+  font-size: 1.3rem;
+  color: #14532d;
+}
+
+.order-success-banner p {
+  margin: 0;
+  color: #166534;
+}
+
+.order-success-id {
+  margin-top: 8px !important;
+  font-weight: 700;
+}
+
+.order-success-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
