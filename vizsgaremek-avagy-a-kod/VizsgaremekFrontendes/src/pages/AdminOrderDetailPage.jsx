@@ -176,6 +176,15 @@ export default function AdminOrderDetailPage() {
   const shipping = itemsSubtotal >= 150000 ? 0 : 5000;
   const total = itemsSubtotal + shipping;
 
+  const accountUser = buyers.find((u) => u.id === order.user_id);
+  const orderCustomerName = `${order.customer_first_name || ""} ${order.customer_last_name || ""}`.trim();
+  const orderCustomerEmail = (order.customer_email || "").trim();
+
+  const customerNameDisplay =
+    orderCustomerName || getUserName(order.user_id);
+  const customerEmailDisplay =
+    orderCustomerEmail || accountUser?.email || "N/A";
+
   return (
     <div className="page page-order-detail">
       <div className="container">
@@ -263,12 +272,20 @@ export default function AdminOrderDetailPage() {
             <div className="info-section">
               <h3>Ügyfél adatai</h3>
               <div className="info-group">
-                <label>Név:</label>
-                <p>{getUserName(order.user_id)}</p>
+                <label>Rendeléskori név:</label>
+                <p>{customerNameDisplay}</p>
               </div>
               <div className="info-group">
-                <label>E-mail:</label>
-                <p>{buyers.find(u => u.id === order.user_id)?.email || "N/A"}</p>
+                <label>Rendeléskori e-mail:</label>
+                <p>{customerEmailDisplay}</p>
+              </div>
+              <div className="info-group">
+                <label>Fiók név:</label>
+                <p>{accountUser ? `${accountUser.first_name} ${accountUser.last_name}` : "N/A"}</p>
+              </div>
+              <div className="info-group">
+                <label>Fiók e-mail:</label>
+                <p>{accountUser?.email || "N/A"}</p>
               </div>
             </div>
 

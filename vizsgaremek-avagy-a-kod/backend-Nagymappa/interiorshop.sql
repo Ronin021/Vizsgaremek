@@ -29,7 +29,10 @@ CREATE TABLE `orders` (
   `status` varchar(50) DEFAULT NULL,
   `payment_method` varchar(50) DEFAULT NULL,
   `shipping_address` varchar(500) DEFAULT NULL,
-  `phone` varchar(20) DEFAULT NULL
+  `phone` varchar(20) DEFAULT NULL,
+  `customer_first_name` varchar(100) DEFAULT NULL,
+  `customer_last_name` varchar(100) DEFAULT NULL,
+  `customer_email` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 INSERT INTO `orders` (`id`, `user_id`, `total_price`, `date`, `status`, `payment_method`, `shipping_address`, `phone`) VALUES

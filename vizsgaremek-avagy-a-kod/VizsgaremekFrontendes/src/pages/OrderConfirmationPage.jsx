@@ -1,16 +1,18 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { request } from "../api/client.js";
-import { getCategories, getUsers } from "../api/adminApi.js";
+import { getCategories } from "../api/adminApi.js";
+import { useAuth } from "../context/AuthContext";
 
 export default function OrderConfirmationPage() {
   const { orderId } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+  const { user } = useAuth();
 
   const [order, setOrder] = useState(null);
   const [items, setItems] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [buyers, setBuyers] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -21,17 +23,15 @@ export default function OrderConfirmationPage() {
       }
 
       try {
-        const [orderData, itemsData, categoriesData, usersData] = await Promise.all([
+        const [orderData, itemsData, categoriesData] = await Promise.all([
           request(`/api/orders/${orderId}`),
           request(`/api/orderItems/order/${orderId}`),
           getCategories(),
-          getUsers().catch(() => []),
         ]);
 
         setOrder(orderData);
         setItems(itemsData);
         setCategories(categoriesData);
-        setBuyers(usersData);
       } catch (err) {
         console.error("Rendelés visszaigazolás betöltése sikertelen", err);
       } finally {
@@ -72,10 +72,13 @@ export default function OrderConfirmationPage() {
     return cat?.name || "Egyéb";
   };
 
-  const getUserName = (userId) => {
-    const u = buyers.find((usr) => usr.id === userId);
-    return u ? `${u.first_name} ${u.last_name}` : "Ismeretlen";
-  };
+  const buyerName =
+    `${order?.customer_first_name || ""} ${order?.customer_last_name || ""}`.trim() ||
+    location.state?.buyerName ||
+    (user ? `${user.first_name || ""} ${user.last_name || ""}`.trim() : "") ||
+    "Ismeretlen";
+
+  const buyerEmail = (order?.customer_email || "").trim() || location.state?.buyerEmail || user?.email || "N/A";
 
   const formatOrderDate = (dateStr) => {
     if (!dateStr) return "";
@@ -199,11 +202,11 @@ export default function OrderConfirmationPage() {
               <h3>Ügyfél adatai</h3>
               <div className="info-group">
                 <label>Név:</label>
-                <p>{getUserName(order.user_id)}</p>
+                <p>{buyerName}</p>
               </div>
               <div className="info-group">
                 <label>E-mail:</label>
-                <p>{buyers.find((u) => u.id === order.user_id)?.email || "N/A"}</p>
+                <p>{buyerEmail}</p>
               </div>
             </div>
 

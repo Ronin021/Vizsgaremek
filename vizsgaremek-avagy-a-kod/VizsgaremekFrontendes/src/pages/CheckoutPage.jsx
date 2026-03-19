@@ -83,7 +83,10 @@ export default function CheckoutPage() {
         status: "Feldolgozás alatt",
         payment_method: paymentMethod === "credit-card" ? "Bankkártya" : "Utánvét",
         shipping_address: shippingAddress,
-        phone: phone
+        phone: phone,
+        customer_first_name: firstName.trim(),
+        customer_last_name: lastName.trim(),
+        customer_email: email.trim()
       };
 
       // If there is an active cart order, update it with the checkout details
@@ -96,14 +99,24 @@ export default function CheckoutPage() {
 
         // mark order as completed in UI and clear active order id (cart)
         clearCart();
-        navigate(`/order-success/${Number(activeOrderId)}`);
+        navigate(`/order-success/${Number(activeOrderId)}`, {
+          state: {
+            buyerName: `${firstName} ${lastName}`.trim(),
+            buyerEmail: email,
+          },
+        });
       } else {
         // fallback: create a fresh order (guest flow)
         const response = await request("/api/orders", {
           method: "POST",
           body: orderData
         });
-        navigate(`/order-success/${response.id}`);
+        navigate(`/order-success/${response.id}`, {
+          state: {
+            buyerName: `${firstName} ${lastName}`.trim(),
+            buyerEmail: email,
+          },
+        });
       }
     } catch (err) {
       setError(err.message || "Hiba a megrendelés során");

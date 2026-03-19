@@ -50,6 +50,9 @@ export const createOrder = async (req: Request, res: Response) => {
       payment_method: req.body?.payment_method || 'Utánvét',
       shipping_address: req.body?.shipping_address || '',
       phone: req.body?.phone || '',
+      customer_first_name: req.body?.customer_first_name || '',
+      customer_last_name: req.body?.customer_last_name || '',
+      customer_email: req.body?.customer_email || '',
     };
     const id = await orderService.createOrder(orderData);
     res.status(201).json({ id, message: 'Rendelés sikeresen hozzáadva' });
@@ -63,7 +66,12 @@ export const updateOrder = async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
     // A checkout során a frontend teljes rendelésobjektummal frissíti a már létrejött kosarat.
-    const orderData: OrderDto = req.body;
+    const orderData: OrderDto = {
+      ...req.body,
+      customer_first_name: req.body?.customer_first_name || '',
+      customer_last_name: req.body?.customer_last_name || '',
+      customer_email: req.body?.customer_email || '',
+    };
     const success = await orderService.updateOrder(id, orderData);
     if (success) {
       res.json({ message: 'Rendelés sikeresen frissítve' });
