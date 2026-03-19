@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import {
   getProducts,
@@ -14,6 +14,7 @@ import {
 export default function AdminPage() {
   const { user, isLoggedIn } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   
   const [activeTab, setActiveTab] = useState("products");
   const [products, setProducts] = useState([]);
@@ -64,6 +65,14 @@ export default function AdminPage() {
     }
     fetchData();
   }, []);
+
+  // Keep tab in sync with URL query (e.g. /admin?tab=orders)
+  useEffect(() => {
+    const tab = new URLSearchParams(location.search).get("tab");
+    if (tab === "orders" || tab === "products") {
+      setActiveTab(tab);
+    }
+  }, [location.search]);
 
   // Stats calculations
   const totalProducts = products.length;
@@ -210,11 +219,13 @@ export default function AdminPage() {
     return cat?.name || "Egyéb";
   };
 
-  // Format date
+  // Format date - parse from UTC (database stores as YYYY-MM-DD UTC)
   const formatDate = (dateStr) => {
     if (!dateStr) return "";
-    const d = new Date(dateStr);
-    return d.toISOString().slice(0, 10);
+    const [year, month, day] = dateStr.split('-');
+    // Parse as UTC date, then format to local timezone
+    const utcDate = new Date(Date.UTC(parseInt(year), parseInt(month) - 1, parseInt(day)));
+    return utcDate.toLocaleDateString("hu-HU");
   };
 
   // Status badge color
@@ -488,21 +499,28 @@ export default function AdminPage() {
             ) : (
               <div className="orders-list">
                 {orders.map((order) => (
-                  <div key={order.id} className="order-card">
-                    <div className="order-info">
-                      <h4>Rendelés #{order.id}</h4>
-                      <p className="order-customer">{getUserName(order.user_id)}</p>
-                      <p className="order-date">{formatDate(order.date)}</p>
+                  <Link 
+                    key={order.id} 
+                    to={`/admin/orders/${order.id}`}
+                    className="order-card-link"
+                    style={{ textDecoration: "none" }}
+                  >
+                    <div className="order-card">
+                      <div className="order-info">
+                        <h4>Rendelés #{order.id}</h4>
+                        <p className="order-customer">{getUserName(order.user_id)}</p>
+                        <p className="order-date">{formatDate(order.date)}</p>
+                      </div>
+                      <div className="order-right">
+                        <p className="order-total">
+                          {(order.total_price || 0).toLocaleString("hu-HU")} Ft
+                        </p>
+                        <span className={`order-status ${getStatusClass(order.status)}`}>
+                          {order.status}
+                        </span>
+                      </div>
                     </div>
-                    <div className="order-right">
-                      <p className="order-total">
-                        {(order.total_price || 0).toLocaleString("hu-HU")} Ft
-                      </p>
-                      <span className={`order-status ${getStatusClass(order.status)}`}>
-                        {order.status}
-                      </span>
-                    </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             )}

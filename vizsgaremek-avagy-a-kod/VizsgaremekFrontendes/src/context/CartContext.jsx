@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import {
   createOrder,
   getActiveOrderId,
+  clearActiveOrderId,
   setActiveOrderId,
   addOrderItem,
   getOrderItems,
@@ -89,6 +90,13 @@ export function CartProvider({ children }) {
     setItems(updated);
   }
 
+  /* KOSÁR ÜRÍTÉSE RENDELÉS UTÁN */
+  function clearCart() {
+    clearActiveOrderId();
+    setOrderId(null);
+    setItems([]);
+  }
+
   /* KOSÁR ÖSSZEGZÉS */
   const subtotal = items.reduce(
     (sum, i) => sum + i.quantity * i.product.price,
@@ -108,6 +116,7 @@ export function CartProvider({ children }) {
         addToCart,
         updateQuantity,
         removeFromCart,
+        clearCart,
         subtotal,
         shipping,
         total,

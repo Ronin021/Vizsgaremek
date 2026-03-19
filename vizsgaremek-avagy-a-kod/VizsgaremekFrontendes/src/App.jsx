@@ -12,6 +12,7 @@ import CheckoutPage from "./pages/CheckoutPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import AdminPage from "./pages/AdminPage";
+import AdminOrderDetailPage from "./pages/AdminOrderDetailPage";
 import TermsPage from "./pages/TermsPage";
 import PrivacyPage from "./pages/PrivacyPage";
 import ShippingPage from "./pages/ShippingPage";
@@ -41,6 +42,7 @@ function App() {
               <Route path="/register" element={<RegisterPage />} />
 
               <Route path="/admin" element={<AdminPage />} />
+              <Route path="/admin/orders/:orderId" element={<AdminOrderDetailPage />} />
 
               <Route path="/aszf" element={<TermsPage />} />
               <Route path="/adatvedelem" element={<PrivacyPage />} />

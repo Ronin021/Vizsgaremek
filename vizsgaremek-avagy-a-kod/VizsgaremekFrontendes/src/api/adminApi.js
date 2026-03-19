@@ -39,6 +39,19 @@ export async function updateOrderStatus(id, status) {
   });
 }
 
+export async function updateOrder(id, orderData) {
+  return request(`/api/orders/${id}`, {
+    method: "PUT",
+    body: orderData
+  });
+}
+
+export async function deleteOrder(id) {
+  return request(`/api/orders/${id}`, {
+    method: "DELETE"
+  });
+}
+
 // === CATEGORIES ===
 
 export async function getCategories() {

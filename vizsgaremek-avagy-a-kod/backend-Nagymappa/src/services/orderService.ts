@@ -55,7 +55,15 @@ export const updateOrder = async (id: number, order: OrderDto): Promise<boolean>
 // Rendelés törlése
 export const deleteOrder = async (id: number): Promise<boolean> => {
   const connection = await pool.getConnection();
-  const [result] = await connection.query('DELETE FROM orders WHERE id = ?', [id]);
-  connection.release();
-  return (result as any).affectedRows > 0;
+  try {
+    // Előbb az order_items-eket törlöm (FK constraint miatt)
+    await connection.query('DELETE FROM order_items WHERE order_id = ?', [id]);
+    // Utána az order-t
+    const [result] = await connection.query('DELETE FROM orders WHERE id = ?', [id]);
+    connection.release();
+    return (result as any).affectedRows > 0;
+  } catch (error) {
+    connection.release();
+    throw error;
+  }
 };

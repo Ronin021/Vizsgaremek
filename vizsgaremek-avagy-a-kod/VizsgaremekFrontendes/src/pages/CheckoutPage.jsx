@@ -3,10 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 import { request } from "../api/client.js";
-import { getActiveOrderId, clearActiveOrderId } from "../api/orderApi.js";
+import { getActiveOrderId } from "../api/orderApi.js";
 
 export default function CheckoutPage() {
-  const { items, subtotal, shipping, total } = useCart();
+  const { items, subtotal, shipping, total, clearCart } = useCart();
   const { user, isLoggedIn } = useAuth();
   const navigate = useNavigate();
 
@@ -66,11 +66,20 @@ export default function CheckoutPage() {
     try {
       const shippingAddress = `${address}, ${zipCode} ${city}`;
       
+      // Get local date (not UTC) - avoid timezone issues
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
+      const dd = String(today.getDate()).padStart(2, '0');
+      const localDate = `${yyyy}-${mm}-${dd}`;
+      
+      console.log("📅 Küldött dátum:", localDate, "ma van:", today.toLocaleDateString("hu-HU"));
+      
       // Create order with payment details
       const orderData = {
         user_id: user?.id,
         total_price: total,
-        date: new Date().toISOString().slice(0, 10),
+        date: localDate,
         status: "Feldolgozás alatt",
         payment_method: paymentMethod === "credit-card" ? "Bankkártya" : "Utánvét",
         shipping_address: shippingAddress,
@@ -86,7 +95,7 @@ export default function CheckoutPage() {
         });
 
         // mark order as completed in UI and clear active order id (cart)
-        clearActiveOrderId();
+        clearCart();
         navigate("/", { state: { orderComplete: true, orderId: Number(activeOrderId) } });
       } else {
         // fallback: create a fresh order (guest flow)

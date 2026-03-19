@@ -537,3 +537,369 @@
   background: #f3f4f6;
   color: #374151;
 }
+
+/* Order Card Link */
+
+.order-card-link {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  display: block;
+}
+
+.order-card-link:hover .order-card {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+}
+
+/* ===== Admin Order Detail Page ===== */
+
+.page-order-detail {
+  padding-block: 30px 60px;
+}
+
+.order-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.btn-back {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  color: #374151;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.btn-back:hover {
+  background: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+.order-detail-header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: #111827;
+}
+
+/* Order Detail Grid */
+
+.order-detail-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.order-detail-left h2,
+.order-detail-right h3 {
+  margin: 0 0 16px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+/* Order Items Container */
+
+.order-items-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.order-item-card {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 16px;
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  padding: 16px;
+  transition: box-shadow 0.15s ease;
+}
+
+.order-item-card:hover {
+  box-shadow: 0 8px 16px rgba(15, 23, 42, 0.06);
+}
+
+.item-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #f3f4f6;
+}
+
+.item-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.item-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.item-details h3 {
+  margin: 0 0 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.item-category {
+  margin: 0 0 6px;
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.item-price {
+  margin: 0 0 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #ea580c;
+}
+
+.item-quantity,
+.item-subtotal {
+  margin: 0 0 4px;
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+.item-subtotal {
+  font-weight: 500;
+  color: #111827;
+}
+
+.item-description {
+  margin: 8px 0 0;
+  font-size: 0.85rem;
+  color: #6b7280;
+  line-height: 1.4;
+}
+
+/* Order Summary Box */
+
+.order-summary-box {
+  background: #fff7ed;
+  border-radius: 14px;
+  padding: 18px;
+  border: 1px solid #fed7aa;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+  color: #374151;
+}
+
+.summary-row:last-child {
+  margin-bottom: 0;
+}
+
+.summary-total {
+  border-top: 1px solid #fed7aa;
+  padding-top: 10px;
+  margin-top: 10px;
+  font-weight: 600;
+  color: #ea580c;
+  font-size: 1rem;
+}
+
+/* Right Column Info Sections */
+
+.info-section {
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  padding: 18px;
+  margin-bottom: 18px;
+}
+
+.info-section h3 {
+  margin: 0 0 14px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #111827;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.85rem;
+}
+
+.info-group {
+  margin-bottom: 12px;
+}
+
+.info-group:last-child {
+  margin-bottom: 0;
+}
+
+.info-group label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.info-group p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #111827;
+  word-break: break-word;
+}
+
+/* Status Section */
+
+.status-section {
+  background: #f0fdf4;
+  border-radius: 14px;
+  border: 1px solid #bbf7d0;
+  padding: 18px;
+  margin-bottom: 18px;
+}
+
+.status-section h3 {
+  margin: 0 0 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #111827;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-select {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #bbf7d0;
+  background: #ffffff;
+  font-size: 0.9rem;
+  color: #111827;
+  cursor: pointer;
+  margin-bottom: 12px;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.status-select:focus {
+  border-color: #16a34a;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: none;
+  background: #16a34a;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #15803d;
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Danger Section */
+
+.danger-section {
+  background: #fef2f2;
+  border-radius: 14px;
+  border: 1px solid #fecaca;
+  padding: 18px;
+}
+
+.danger-section h3 {
+  margin: 0 0 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #991b1b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btn-danger {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: none;
+  background: #dc2626;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 8px;
+  transition: background 0.15s ease;
+}
+
+.btn-danger:hover:not(:disabled) {
+  background: #b91c1c;
+}
+
+.btn-danger:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.danger-text {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #7f1d1d;
+}
+
+/* Responsive */
+
+@media (max-width: 1100px) {
+  .order-detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .order-item-card {
+    grid-template-columns: 100px 1fr;
+  }
+
+  .item-image {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+@media (max-width: 768px) {
+  .order-detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .order-item-card {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .item-image {
+    width: 100%;
+    height: 200px;
+  }
+}

@@ -21,7 +21,7 @@ router.post('/', orderController.createOrder);
 // PUT - rendelés frissítése (autentikáció szükséges, nem csak admin)
 router.put('/:id', authenticate, orderController.updateOrder);
 
-// DELETE - rendelés törlése (admin vagy jogosult user szükséges)
+// DELETE - rendelés törlése (csak admin)
 router.delete('/:id', authenticate, requireAdmin, orderController.deleteOrder);
 
 export default router;
