@@ -7,12 +7,6 @@
   }
 }
 
-@media (min-width: 1400px) {
-  .product-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-}
-
 /* Tablet and below */
 @media (max-width: 1024px) {
   .hero-inner {
@@ -24,7 +18,7 @@
   }
 
   .product-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .cart-layout,
@@ -40,6 +34,10 @@
 
 /* Mobile */
 @media (max-width: 768px) {
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+
   .header-inner {
     gap: 10px;
   }
