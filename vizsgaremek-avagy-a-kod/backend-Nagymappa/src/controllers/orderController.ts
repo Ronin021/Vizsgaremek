@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import * as orderService from '../services/orderService';
 import { OrderDto } from '../dto/orderDto';
+import { getLocalDate, isValidDateFormat } from '../utils/dateUtils';
 
 // Összes rendelés
 export const getAllOrders = async (_req: Request, res: Response) => {
@@ -45,7 +46,7 @@ export const createOrder = async (req: Request, res: Response) => {
     const orderData: OrderDto = {
       user_id: req.body?.user_id || null,
       total_price: req.body?.total_price || 0,
-      date: req.body?.date || new Date().toISOString().slice(0, 10),
+      date: (req.body?.date && isValidDateFormat(req.body.date)) ? req.body.date : getLocalDate(),
       status: req.body?.status || 'Kosár',
       payment_method: req.body?.payment_method || 'Utánvét',
       shipping_address: req.body?.shipping_address || '',
@@ -68,6 +69,8 @@ export const updateOrder = async (req: Request, res: Response) => {
     // A checkout során a frontend teljes rendelésobjektummal frissíti a már létrejött kosarat.
     const orderData: OrderDto = {
       ...req.body,
+      // Dátum validálása: ha érvényes YYYY-MM-DD formátum, akkor megtartjuk, különben helyi dátum
+      date: (req.body?.date && isValidDateFormat(req.body.date)) ? req.body.date : getLocalDate(),
       customer_first_name: req.body?.customer_first_name || '',
       customer_last_name: req.body?.customer_last_name || '',
       customer_email: req.body?.customer_email || '',
