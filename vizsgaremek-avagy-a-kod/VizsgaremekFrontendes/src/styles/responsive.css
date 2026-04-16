@@ -21,6 +21,11 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  /* FeaturedProducts - 2 oszlop tablet nézeten */
+  .section-featured .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .cart-layout,
   .checkout-layout,
   .product-detail-layout {
@@ -30,12 +35,40 @@
   .footer-inner {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  /* Termék státusz & gomb - tablet nézeten is dinamikus */
+  .product-actions {
+    gap: 8px;
+  }
 }
 
 /* Mobile */
 @media (max-width: 768px) {
   .product-grid {
     grid-template-columns: 1fr;
+  }
+
+  /* Featured Products - 2 oszlop mobil nézeten is */
+  .section-featured .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Termék státusz & gomb - dinamikus elrendezés telefonon */
+  .product-actions {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 8px;
+  }
+
+  .product-actions .stock-badge {
+    width: 100%;
+    text-align: center;
+    padding: 8px 12px;
+  }
+
+  .product-actions .btn {
+    width: 100%;
   }
 
   .header-inner {
